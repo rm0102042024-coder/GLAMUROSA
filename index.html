@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    
+
     <style>
         :root {
             --bg-primary: #0f172a;
@@ -350,23 +351,55 @@
 
         /* Animations */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .nav-links { display: none; }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 150px;
+            height: auto;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+
+        .logo img:hover {
+            transform: scale(1.05);
         }
     </style>
 </head>
+
 <body>
 
     <!-- Header Navigation -->
     <header>
         <div class="nav-container">
-            <a href="#" class="logo">MiMarca</a>
+            <a href="#" class="logo">
+                <img src="assets/img/LOGO GLAMUROSA.jpeg" alt="Logo de MiMarca">
+            </a>
             <ul class="nav-links">
                 <li><a href="#inicio">Inicio</a></li>
                 <li><a href="#caracteristicas">Servicios</a></li>
@@ -381,7 +414,8 @@
         <div class="hero-content">
             <span class="badge">🚀 Nueva Plataforma 2.0</span>
             <h1>Construimos experiencias digitales <span>extraordinarias</span></h1>
-            <p>Bienvenido a nuestro portal. Diseñamos soluciones eficientes, modernas y escalables para hacer crecer tu proyecto al siguiente nivel.</p>
+            <p>Bienvenido a nuestro portal. Diseñamos soluciones eficientes, modernas y escalables para hacer crecer tu
+                proyecto al siguiente nivel.</p>
             <div class="cta-group">
                 <a href="#caracteristicas" class="btn btn-primary">Explorar Servicios</a>
                 <a href="#contacto" class="btn btn-secondary">Escríbenos</a>
@@ -487,11 +521,12 @@
         });
 
         // Formulario de contacto interactivo
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+        document.getElementById('contactForm').addEventListener('submit', function (e) {
             e.preventDefault();
             alert('¡Gracias por tu mensaje! Nos pondremos en contacto contigo pronto.');
             this.reset();
         });
     </script>
 </body>
+
 </html>
