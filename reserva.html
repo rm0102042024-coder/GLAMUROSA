@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Reserva tu cita en Glamurosa Nails & Brows. Elige tu servicio, fecha y hora de manera rápida y sencilla.">
+    <meta name="theme-color" content="#FF69B4">
+    
+    <title>Reserva tu Cita | Glamurosa Nails & Brows</title>
+    
+    <!-- Enlace al Manifest de la PWA -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Hoja de estilos principal -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Encabezado y Navegación -->
+    <header>
+        <div class="logo">
+            <h1>Glamurosa</h1>
+            <p>Nails & Brows</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="index.html#servicios">Servicios</a></li>
+                <li><a href="reserva.html">Reservar Cita</a></li>
+                <li><a href="login.html">Iniciar Sesión / Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="booking-container">
+            <h2>Reserva tu Cita</h2>
+            <p>Selecciona el servicio que deseas, la fecha y el horario que mejor se adapte a ti.</p>
+
+            <form id="booking-form" class="booking-form">
+                
+                <div class="form-group">
+                    <label for="nombre">Nombre completo:</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej. Maria López" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono / WhatsApp:</label>
+                    <input type="tel" id="telefono" name="telefono" placeholder="Ej. 7000 0000" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="servicio">Servicio deseado:</label>
+                    <select id="servicio" name="servicio" required>
+                        <option value="" disabled selected>-- Selecciona un servicio --</option>
+                        <optgroup label="Nails Studio">
+                            <option value="Manicura Rusa">Manicura Rusa</option>
+                            <option value="Uñas de Acrílico">Uñas de Acrílico</option>
+                            <option value="Esmaltado Semipermanente">Esmaltado Semipermanente</option>
+                        </optgroup>
+                        <optgroup label="Brows & Lashes">
+                            <option value="Diseño y Depilación de Cejas">Diseño y Depilación de Cejas</option>
+                            <option value="Laminado de Cejas">Laminado de Cejas</option>
+                            <option value="Lash Lifting">Lash Lifting</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" name="fecha" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="hora">Horario disponible:</label>
+                    <select id="hora" name="hora" required>
+                        <option value="" disabled selected>-- Selecciona la hora --</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="10:30">10:30 AM</option>
+                        <option value="12:00">12:00 PM</option>
+                        <option value="14:00">02:00 PM</option>
+                        <option value="15:30">03:30 PM</option>
+                        <option value="17:00">05:00 PM</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="notas">Notas o solicitudes especiales (opcional):</label>
+                    <textarea id="notas" name="notas" rows="3" placeholder="Ej. Tono preferido, uñas frágiles, alergias..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary">Confirmar Reserva</button>
+            </form>
+
+            <!-- Contenedor para mostrar mensajes de éxito o error enviados desde JS -->
+            <div id="form-message" class="form-message" aria-live="polite"></div>
+        </section>
+    </main>
+
+    <!-- Pie de Página -->
+    <footer>
+        <p>&copy; 2026 Glamurosa Nails & Brows. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Script de lógica de reservas enlazado como ES Module -->
+    <script type="module" src="js/reserva.js"></script>
+</body>
+</html>
