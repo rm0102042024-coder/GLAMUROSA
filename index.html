@@ -1,77 +1,467 @@
 <!DOCTYPE html>
+
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Glamurosa Nails & Brows - Tu salón de belleza especializado en uñas y cejas. Reserva tu cita online.">
-    <meta name="theme-color" content="#FF69B4"> <!-- Color representativo para la barra del navegador en móviles (PWA) -->
-    
-    <title>Glamurosa Nails & Brows</title>
-    
-    <!-- Enlace al Manifest de la PWA -->
-    <link rel="manifest" href="manifest.json">
-    
-    <!-- Hoja de estilos principal -->
-    <link rel="stylesheet" href="css/style.css">
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description"
+    content="Glamurosa Nails & Brows - Tu salón de belleza especializado en uñas y cejas. Reserva tu cita online.">
+
+<meta name="theme-color" content="#111111">
+
+<title>Glamurosa Nails & Brows</title>
+
+
+<!-- Manifest de la PWA -->
+<link rel="manifest" href="manifest.json">
+
+
+<!-- Font Awesome -->
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
+
+<!-- Hoja de estilos principal -->
+<link rel="stylesheet" href="css/style.css">
+
 </head>
+
 <body>
-    
-    <!-- Encabezado y Navegación -->
-    <header>
-        <div class="logo">
-            <a href="index.html">
-                <img src="assets/img/LOGO_GLAMUROSA.png" alt="Logo de Glamurosa Nails & Brows" width="150">
+
+<!-- ==============================
+     ENCABEZADO Y NAVEGACIÓN
+=============================== -->
+
+<header>
+
+    <div class="logo">
+
+        <a
+            href="index.html"
+            aria-label="Ir al inicio"
+        >
+
+            <img
+                src="assets/img/LOGO_GLAMUROSA.png"
+                alt="Logo de Glamurosa Nails & Brows"
+                width="150"
+            >
+
+        </a>
+
+    </div>
+
+
+    <nav aria-label="Navegación principal">
+
+        <ul>
+
+            <li>
+                <a href="index.html">
+
+                    <i
+                        class="fa-solid fa-house"
+                        aria-hidden="true"
+                    ></i>
+
+                    Inicio
+
+                </a>
+            </li>
+
+
+            <li>
+                <a href="nosotros.html">
+
+                    <i
+                        class="fa-solid fa-heart"
+                        aria-hidden="true"
+                    ></i>
+
+                    Nosotros
+
+                </a>
+            </li>
+
+
+            <li>
+                <a href="servicios.html">
+
+                    <i
+                        class="fa-solid fa-wand-magic-sparkles"
+                        aria-hidden="true"
+                    ></i>
+
+                    Servicios
+
+                </a>
+            </li>
+
+
+            <li>
+                <a href="#horarios">
+
+                    <i
+                        class="fa-regular fa-clock"
+                        aria-hidden="true"
+                    ></i>
+
+                    Horarios
+
+                </a>
+            </li>
+
+
+            <li>
+                <a href="contacto.html">
+
+                    <i
+                        class="fa-solid fa-phone"
+                        aria-hidden="true"
+                    ></i>
+
+                    Contacto
+
+                </a>
+            </li>
+
+
+            <li>
+
+                <a
+                    href="reserva.html"
+                    class="nav-reserva"
+                >
+
+                    <i
+                        class="fa-solid fa-calendar-check"
+                        aria-hidden="true"
+                    ></i>
+
+                    Reservar Cita
+
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="login.html">
+
+                    <i
+                        class="fa-solid fa-user"
+                        aria-hidden="true"
+                    ></i>
+
+                    Iniciar Sesión / Admin
+
+                </a>
+
+            </li>
+
+        </ul>
+
+    </nav>
+
+</header>
+
+
+
+<!-- ==============================
+     CONTENIDO PRINCIPAL
+=============================== -->
+
+<main>
+
+
+    <!-- ==============================
+         SECCIÓN HERO
+    =============================== -->
+
+    <section id="hero">
+
+        <div class="hero-content">
+
+
+            <span class="hero-icon">
+
+                <i
+                    class="fa-solid fa-sparkles"
+                    aria-hidden="true"
+                ></i>
+
+            </span>
+
+
+            <h1>
+                Bienvenido a Glamurosa
+            </h1>
+
+
+            <h2>
+
+                Resalta tu belleza natural
+
+                <i
+                    class="fa-solid fa-heart"
+                    aria-hidden="true"
+                ></i>
+
+            </h2>
+
+
+            <p>
+
+                Somos expertos en el cuidado, diseño y mantenimiento
+                de uñas y cejas. Brindamos una experiencia relajante
+                y resultados impecables.
+
+            </p>
+
+
+            <a
+                href="reserva.html"
+                class="btn-primary"
+            >
+
+                <i
+                    class="fa-solid fa-calendar-plus"
+                    aria-hidden="true"
+                ></i>
+
+                Agenda tu cita hoy
+
             </a>
+
+
         </div>
-        <nav>
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="#horarios">Horarios</a></li>
-                <li><a href="reserva.html">Reservar Cita</a></li>
-                <li><a href="login.html">Iniciar Sesión / Admin</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <main>
-        <!-- Sección Hero (Principal) -->
-        <section id="hero">
-            <div class="hero-content">
-                <h1>Bienvenido a Glamurosa</h1>
-                <h2>Resalta tu belleza natural</h2>
-                <p>Somos expertos en el cuidado, diseño y mantenimiento de uñas y cejas. Brindamos una experiencia relajante y resultados impecables.</p>
-                <a href="reserva.html" class="btn-primary">Agenda tu cita hoy</a>
+    </section>
+
+
+
+    <!-- ==============================
+         SECCIÓN DE HORARIOS
+    =============================== -->
+
+    <section id="horarios">
+
+
+        <div class="section-title">
+
+            <i
+                class="fa-regular fa-clock"
+                aria-hidden="true"
+            ></i>
+
+            <h2>
+                Horarios de Atención
+            </h2>
+
+        </div>
+
+
+        <div class="horarios-content">
+
+
+            <div class="horario-item">
+
+                <i
+                    class="fa-solid fa-store"
+                    aria-hidden="true"
+                ></i>
+
+
+                <div>
+
+                    <h3>
+                        Horario de atención
+                    </h3>
+
+
+                    <p>
+                        8:00 am - 4:00 pm
+                    </p>
+
+                </div>
+
             </div>
-        </section>
 
-        <!-- Sección de Horarios -->
-        <section id="horarios">
-            <h2>Horarios de Atención</h2>
-            <div class="horarios-content">
-                <p>Horarios de atención 8:00 am - 4:00 pm</p>
-                <p>Horario para citas 8:00 am - 11:00 am - 2:00 pm</p>
+
+
+            <div class="horario-item">
+
+                <i
+                    class="fa-solid fa-calendar-days"
+                    aria-hidden="true"
+                ></i>
+
+
+                <div>
+
+                    <h3>
+                        Horario para citas
+                    </h3>
+
+
+                    <p>
+                        8:00 am - 11:00 am
+                    </p>
+
+
+                    <p>
+                        2:00 pm
+                    </p>
+
+                </div>
+
             </div>
-        </section>
-    </main>
 
-    <!-- Pie de Página -->
-    <footer>
-        <p>&copy; 2026 Glamurosa Nails & Brows. Todos los derechos reservados.</p>
-    </footer>
 
-    <!-- Script base para registrar el Service Worker de la PWA -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./service-worker.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registrado con éxito con el scope: ', registration.scope);
-                    })
-                    .catch(err => {
-                        console.error('El registro del ServiceWorker falló: ', err);
-                    });
-            });
-        }
-    </script>
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- ==============================
+     PIE DE PÁGINA
+=============================== -->
+
+<footer>
+
+
+    <div class="footer-content">
+
+
+        <div class="footer-logo">
+
+            <i
+                class="fa-solid fa-spa"
+                aria-hidden="true"
+            ></i>
+
+
+            <span>
+                Glamurosa Nails & Brows
+            </span>
+
+        </div>
+
+
+
+        <div class="footer-social">
+
+
+            <a
+                href="#"
+                aria-label="Instagram"
+            >
+
+                <i
+                    class="fa-brands fa-instagram"
+                    aria-hidden="true"
+                ></i>
+
+            </a>
+
+
+            <a
+                href="#"
+                aria-label="Facebook"
+            >
+
+                <i
+                    class="fa-brands fa-facebook-f"
+                    aria-hidden="true"
+                ></i>
+
+            </a>
+
+
+            <a
+                href="#"
+                aria-label="WhatsApp"
+            >
+
+                <i
+                    class="fa-brands fa-whatsapp"
+                    aria-hidden="true"
+                ></i>
+
+            </a>
+
+
+        </div>
+
+
+
+        <p>
+
+            <i
+                class="fa-regular fa-copyright"
+                aria-hidden="true"
+            ></i>
+
+            2026 Glamurosa Nails & Brows.
+            Todos los derechos reservados.
+
+        </p>
+
+
+    </div>
+
+
+</footer>
+
+
+
+<!-- ==============================
+     SERVICE WORKER DE LA PWA
+=============================== -->
+
+<script>
+
+    if ('serviceWorker' in navigator) {
+
+        window.addEventListener('load', () => {
+
+            navigator.serviceWorker.register('./service-worker.js')
+
+                .then(registration => {
+
+                    console.log(
+                        'ServiceWorker registrado con éxito con el scope: ',
+                        registration.scope
+                    );
+
+                })
+
+                .catch(err => {
+
+                    console.error(
+                        'El registro del ServiceWorker falló: ',
+                        err
+                    );
+
+                });
+
+        });
+
+    }
+
+</script>
+
 </body>
+
 </html>

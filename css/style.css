@@ -1,316 +1,1256 @@
 /* ==========================================================================
-   Variables de Color y Tipografía
-   ========================================================================== */
-:root {
-    --primary-color: #FF69B4; /* Rosa característico */
-    --primary-hover: #e0529c; /* Rosa más oscuro para hover */
-    --text-color: #333333;
-    --text-light: #666666;
-    --bg-color: #fff5f8; /* Fondo con un tono muy sutil de rosa */
-    --white: #ffffff;
-    --border-color: #e0e0e0;
+GLAMUROSA NAILS & BROWS
+Estilo elegante — Blanco & Negro
+========================================================================== */
+
+/* ==========================================================================
+Importación de fuentes
+========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+
+/* ==========================================================================
+Variables de Color y Tipografía
+========================================================================== */
+
+{
+
+/* Colores de marca */
+--black: #111111;
+--black-soft: #1c1c1c;
+--white: #ffffff;
+--gray-dark: #444444;
+--gray: #777777;
+--gray-light: #eeeeee;
+--gray-bg: #f8f8f8;
+
+/* Colores principales */
+--primary-color: var(--black);
+--primary-hover: #333333;
+
+--text-color: #1a1a1a;
+--text-light: #666666;
+
+--bg-color: #ffffff;
+--border-color: #dddddd;
+
+/* Tipografías */
+--font-heading: 'Cormorant Garamond', Georgia, serif;
+--font-body: 'Montserrat', Arial, sans-serif;
+
 }
 
 /* ==========================================================================
-   Reseteo General (Boilerplate)
-   ========================================================================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+Reseteo General
+========================================================================== */
+
+{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+html {
+scroll-behavior: smooth;
 }
 
 body {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    color: var(--text-color);
-    background-color: var(--bg-color);
-    line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Permite que el footer baje siempre al final */
+
+font-family: var(--font-body);
+
+color: var(--text-color);
+
+background-color: var(--bg-color);
+
+line-height: 1.7;
+
+display: flex;
+
+flex-direction: column;
+
+min-height: 100vh;
+
+font-weight: 400;
+
 }
 
 a {
-    text-decoration: none;
-    color: inherit;
-    transition: color 0.3s ease;
+
+text-decoration: none;
+
+color: inherit;
+
+transition:
+    color 0.3s ease,
+    background-color 0.3s ease,
+    transform 0.3s ease;
+
 }
 
 ul {
-    list-style: none;
+list-style: none;
+}
+
+img {
+max-width: 100%;
+height: auto;
 }
 
 /* ==========================================================================
-   Encabezado y Navegación
-   ========================================================================== */
+ENCABEZADO
+========================================================================== */
+
 header {
-    background-color: var(--white);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    padding: 1rem 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+
+background-color: var(--white);
+
+border-bottom: 1px solid var(--gray-light);
+
+padding: 1rem 5%;
+
+display: flex;
+
+justify-content: space-between;
+
+align-items: center;
+
+position: sticky;
+
+top: 0;
+
+z-index: 1000;
+
 }
+
+/* ==========================================================================
+LOGO
+========================================================================== */
 
 .logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
+display: flex;
+
+align-items: center;
+
 }
 
-.logo h1 {
-    color: var(--primary-color);
-    font-size: 1.8rem;
-    font-weight: 700;
+.logo img {
+
+display: block;
+
+width: 150px;
+
+height: auto;
+
+transition: transform 0.3s ease;
+
 }
 
-.logo p {
-    font-size: 0.85rem;
-    color: var(--text-light);
-    letter-spacing: 2px;
-    text-transform: uppercase;
+.logo img {
+
+transform: scale(1.03);
+
 }
+
+/* ==========================================================================
+NAVEGACIÓN
+========================================================================== */
 
 nav ul {
-    display: flex;
-    gap: 1.5rem;
+
+display: flex;
+
+align-items: center;
+
+gap: 1.5rem;
+
 }
 
 nav a {
-    font-weight: 500;
-    font-size: 1rem;
+
+display: flex;
+
+align-items: center;
+
+gap: 0.45rem;
+
+font-size: 0.82rem;
+
+font-weight: 500;
+
+letter-spacing: 0.4px;
+
+color: var(--text-color);
+
+position: relative;
+
 }
 
-nav a:hover {
-    color: var(--primary-color);
+nav a::after {
+
+content: '';
+
+position: absolute;
+
+left: 0;
+
+bottom: -6px;
+
+width: 0;
+
+height: 1px;
+
+background-color: var(--black);
+
+transition: width 0.3s ease;
+
+}
+
+nav a {
+
+color: var(--black);
+
+}
+
+nav a:hover::after {
+
+width: 100%;
+
+}
+
+nav a i {
+
+font-size: 0.78rem;
+
+}
+
+/* Botón especial de reservar */
+
+nav .nav-reserva {
+
+background-color: var(--black);
+
+color: var(--white);
+
+padding: 0.7rem 1.2rem;
+
+border-radius: 2px;
+
+}
+
+nav .nav-reserva::after {
+
+display: none;
+
+}
+
+nav .nav-reserva {
+
+background-color: var(--primary-hover);
+
+color: var(--white);
+
+transform: translateY(-2px);
+
 }
 
 /* ==========================================================================
-   Estructura Principal
-   ========================================================================== */
+ESTRUCTURA PRINCIPAL
+========================================================================== */
+
 main {
-    flex: 1; /* Permite que el contenido principal expanda el espacio disponible */
-    padding: 2rem 5%;
+
+flex: 1;
+
 }
 
 /* ==========================================================================
-   Sección Hero (Inicio)
-   ========================================================================== */
+HERO
+========================================================================== */
+
 #hero {
-    background-color: var(--white);
-    /* background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('../assets/img/hero-bg.jpg') center/cover; */
-    padding: 5rem 5%;
-    text-align: center;
-    border-bottom: 1px solid var(--border-color);
+
+min-height: 75vh;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+background-color: var(--white);
+
+text-align: center;
+
+padding: 6rem 5%;
+
+border-bottom: 1px solid var(--gray-light);
+
 }
 
 .hero-content {
-    max-width: 800px;
-    margin: 0 auto;
+
+max-width: 850px;
+
+margin: 0 auto;
+
 }
+
+/* Icono decorativo */
+
+.hero-icon {
+
+display: inline-flex;
+
+align-items: center;
+
+justify-content: center;
+
+width: 55px;
+
+height: 55px;
+
+border: 1px solid var(--black);
+
+border-radius: 50%;
+
+margin-bottom: 1.5rem;
+
+}
+
+.hero-icon i {
+
+font-size: 1.2rem;
+
+color: var(--black);
+
+}
+
+/* Título principal */
 
 .hero-content h1 {
-    font-size: 3rem;
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
+
+font-family: var(--font-heading);
+
+font-size: clamp(3.5rem, 7vw, 6rem);
+
+font-weight: 500;
+
+line-height: 0.95;
+
+letter-spacing: -1px;
+
+color: var(--black);
+
+margin-bottom: 1rem;
+
 }
+
+/* Subtítulo */
 
 .hero-content h2 {
-    font-size: 1.5rem;
-    font-weight: 300;
-    color: var(--text-light);
-    margin-bottom: 1.5rem;
+
+font-family: var(--font-heading);
+
+font-size: clamp(1.7rem, 3vw, 2.5rem);
+
+font-weight: 400;
+
+font-style: italic;
+
+color: var(--gray-dark);
+
+margin-bottom: 1.8rem;
+
 }
+
+.hero-content h2 i {
+
+font-size: 1rem;
+
+margin-left: 0.4rem;
+
+}
+
+/* Descripción */
 
 .hero-content p {
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
+
+max-width: 650px;
+
+margin: 0 auto 2.5rem;
+
+color: var(--text-light);
+
+font-size: 0.95rem;
+
+font-weight: 300;
+
+line-height: 1.9;
+
 }
 
 /* ==========================================================================
-   Botón Principal (Base)
-   ========================================================================== */
+BOTÓN PRINCIPAL
+========================================================================== */
+
 .btn-primary {
-    display: inline-block;
-    background-color: var(--primary-color);
-    color: var(--white);
-    padding: 0.8rem 2rem;
-    border: none;
-    border-radius: 50px; /* Bordes redondeados modernos */
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(255, 105, 180, 0.3);
-    transition: all 0.3s ease;
-    text-align: center;
+
+display: inline-flex;
+
+align-items: center;
+
+justify-content: center;
+
+gap: 0.6rem;
+
+background-color: var(--black);
+
+color: var(--white);
+
+padding: 0.95rem 2rem;
+
+border: 1px solid var(--black);
+
+border-radius: 2px;
+
+font-family: var(--font-body);
+
+font-size: 0.82rem;
+
+font-weight: 500;
+
+letter-spacing: 1px;
+
+text-transform: uppercase;
+
+cursor: pointer;
+
+transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
+
 }
 
-.btn-primary:hover {
-    background-color: var(--primary-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(255, 105, 180, 0.4);
-    color: var(--white);
+.btn-primary {
+
+background-color: var(--white);
+
+color: var(--black);
+
+transform: translateY(-2px);
+
+}
+
+.btn-primary i {
+
+font-size: 0.9rem;
+
 }
 
 /* ==========================================================================
-   Sección Horarios
-   ========================================================================== */
+SECCIÓN HORARIOS
+========================================================================== */
+
 #horarios {
-    background-color: var(--white);
-    padding: 3rem 2rem;
-    margin: 3rem auto;
-    max-width: 600px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    text-align: center;
+
+background-color: var(--gray-bg);
+
+padding: 5rem 2rem;
+
+text-align: center;
+
+border-bottom: 1px solid var(--gray-light);
+
+}
+
+/* Título */
+
+.section-title {
+
+display: flex;
+
+flex-direction: column;
+
+align-items: center;
+
+gap: 0.7rem;
+
+margin-bottom: 3rem;
+
+}
+
+.section-title > i {
+
+font-size: 1.3rem;
+
+color: var(--black);
+
 }
 
 #horarios h2 {
-    color: var(--primary-color);
-    margin-bottom: 1.5rem;
-    font-size: 2rem;
+
+font-family: var(--font-heading);
+
+font-size: 2.8rem;
+
+font-weight: 500;
+
+color: var(--black);
+
 }
 
-.horarios-content p {
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-    color: var(--text-light);
+/* Contenedor de horarios */
+
+.horarios-content {
+
+max-width: 850px;
+
+margin: 0 auto;
+
+display: grid;
+
+grid-template-columns: repeat(2, 1fr);
+
+gap: 2rem;
+
+}
+
+/* Tarjeta de horario */
+
+.horario-item {
+
+background-color: var(--white);
+
+border: 1px solid var(--gray-light);
+
+padding: 2.5rem 2rem;
+
+display: flex;
+
+flex-direction: column;
+
+align-items: center;
+
+gap: 1rem;
+
+transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+}
+
+.horario-item {
+
+transform: translateY(-5px);
+
+box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+
+}
+
+.horario-item > i {
+
+font-size: 1.5rem;
+
+color: var(--black);
+
+}
+
+.horario-item h3 {
+
+font-family: var(--font-heading);
+
+font-size: 1.6rem;
+
+font-weight: 600;
+
+margin-bottom: 0.5rem;
+
+}
+
+.horario-item p {
+
+color: var(--text-light);
+
+font-size: 0.9rem;
+
+margin-bottom: 0.2rem;
+
 }
 
 /* ==========================================================================
-   Formulario de Reservas (reserva.html)
-   ========================================================================== */
+FORMULARIO DE RESERVAS
+========================================================================== */
+
 .booking-container {
-    background-color: var(--white);
-    width: 100%;
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 3rem;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+
+background-color: var(--white);
+
+width: 100%;
+
+max-width: 700px;
+
+margin: 4rem auto;
+
+padding: 3.5rem;
+
+border: 1px solid var(--gray-light);
+
+box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
+
 }
 
 .booking-container h2 {
-    text-align: center;
-    color: var(--primary-color);
-    font-size: 2.2rem;
-    margin-bottom: 0.5rem;
+
+text-align: center;
+
+font-family: var(--font-heading);
+
+color: var(--black);
+
+font-size: 3rem;
+
+font-weight: 500;
+
+margin-bottom: 0.5rem;
+
 }
 
 .booking-container > p {
-    text-align: center;
-    color: var(--text-light);
-    margin-bottom: 2.5rem;
-    font-size: 1.05rem;
+
+text-align: center;
+
+color: var(--text-light);
+
+margin-bottom: 2.5rem;
+
+font-size: 0.9rem;
+
+font-weight: 300;
+
 }
 
 .booking-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+
+display: flex;
+
+flex-direction: column;
+
+gap: 1.5rem;
+
 }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+
+display: flex;
+
+flex-direction: column;
+
+gap: 0.5rem;
+
 }
 
 .form-group label {
-    font-weight: 600;
-    color: var(--text-color);
-    font-size: 0.95rem;
+
+font-weight: 500;
+
+color: var(--text-color);
+
+font-size: 0.78rem;
+
+letter-spacing: 0.5px;
+
+text-transform: uppercase;
+
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
-    width: 100%;
-    padding: 0.9rem;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 1rem;
-    font-family: inherit;
-    background-color: #fafafa;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+width: 100%;
+
+padding: 0.95rem 1rem;
+
+border: 1px solid var(--border-color);
+
+border-radius: 0;
+
+font-size: 0.9rem;
+
+font-family: var(--font-body);
+
+color: var(--text-color);
+
+background-color: var(--white);
+
+transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+
 }
 
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    background-color: var(--white);
-    box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.15);
+.form-group input,
+.form-group select,
+.form-group textarea {
+
+outline: none;
+
+border-color: var(--black);
+
+box-shadow: 0 0 0 1px var(--black);
+
 }
 
 .form-group select {
-    cursor: pointer;
+
+cursor: pointer;
+
 }
 
 .form-group textarea {
-    resize: vertical;
-    min-height: 100px;
+
+resize: vertical;
+
+min-height: 120px;
+
 }
 
-/* Adaptación del botón principal dentro del formulario */
+/* Botón del formulario */
+
 .booking-form .btn-primary {
-    display: block;
-    width: 100%;
-    margin-top: 1rem;
-    padding: 1rem;
-    font-size: 1.1rem;
+
+display: flex;
+
+width: 100%;
+
+margin-top: 1rem;
+
+padding: 1rem;
+
 }
+
+/* Mensaje del formulario */
 
 .form-message {
-    margin-top: 1.5rem;
-    text-align: center;
-    font-weight: 600;
-    font-size: 1.1rem;
-    min-height: 24px;
+
+margin-top: 1.5rem;
+
+text-align: center;
+
+font-weight: 500;
+
+font-size: 0.9rem;
+
+min-height: 24px;
+
 }
 
 /* ==========================================================================
-   Pie de Página
-   ========================================================================== */
+FOOTER
+========================================================================== */
+
 footer {
-    background-color: var(--white);
-    text-align: center;
-    padding: 1.5rem;
-    border-top: 1px solid var(--border-color);
-    color: var(--text-light);
-    font-size: 0.9rem;
-    margin-top: auto; /* Empuja el footer al final si el contenido es corto */
+
+background-color: var(--black);
+
+color: var(--white);
+
+text-align: center;
+
+padding: 3rem 1.5rem;
+
+margin-top: auto;
+
+}
+
+.footer-content {
+
+max-width: 1000px;
+
+margin: 0 auto;
+
+}
+
+/* Logo footer */
+
+.footer-logo {
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+gap: 0.7rem;
+
+margin-bottom: 1.5rem;
+
+font-family: var(--font-heading);
+
+font-size: 1.7rem;
+
+}
+
+.footer-logo i {
+
+font-size: 1.2rem;
+
+}
+
+/* Redes sociales */
+
+.footer-social {
+
+display: flex;
+
+justify-content: center;
+
+gap: 1rem;
+
+margin-bottom: 1.8rem;
+
+}
+
+.footer-social a {
+
+width: 38px;
+
+height: 38px;
+
+border: 1px solid #555;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+border-radius: 50%;
+
+color: var(--white);
+
+}
+
+.footer-social a {
+
+background-color: var(--white);
+
+color: var(--black);
+
+border-color: var(--white);
+
+transform: translateY(-3px);
+
+}
+
+footer p {
+
+color: #aaaaaa;
+
+font-size: 0.72rem;
+
+letter-spacing: 0.3px;
+
 }
 
 /* ==========================================================================
-   Media Queries (Diseño Responsive)
-   ========================================================================== */
+RESPONSIVE — TABLET
+========================================================================== */
+
+@media (max-width: 1000px) {
+
+header {
+
+    padding: 1rem 3%;
+
+}
+
+
+nav ul {
+
+    gap: 1rem;
+
+}
+
+
+nav a {
+
+    font-size: 0.75rem;
+
+}
+
+}
+
+/* ==========================================================================
+RESPONSIVE — MÓVIL
+========================================================================== */
+
 @media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1.2rem;
-    }
 
-    nav ul {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 1.2rem;
-    }
+header {
 
-    .hero-content h1 {
-        font-size: 2.2rem;
-    }
+    flex-direction: column;
 
-    .booking-container {
-        padding: 2rem 1.5rem;
-    }
-    
-    .booking-container h2 {
-        font-size: 1.8rem;
-    }
+    gap: 1.2rem;
+
+    padding: 1.2rem;
+
+}
+
+
+.logo img {
+
+    width: 135px;
+
+}
+
+
+nav ul {
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 0.8rem 1.2rem;
+
+}
+
+
+nav a {
+
+    font-size: 0.72rem;
+
+}
+
+
+nav .nav-reserva {
+
+    padding: 0.6rem 0.9rem;
+
+}
+
+
+/* Hero */
+
+#hero {
+
+    min-height: 70vh;
+
+    padding: 5rem 1.5rem;
+
+}
+
+
+.hero-content h1 {
+
+    font-size: 3.5rem;
+
+}
+
+
+.hero-content h2 {
+
+    font-size: 1.8rem;
+
+}
+
+
+.hero-content p {
+
+    font-size: 0.85rem;
+
+}
+
+
+/* Horarios */
+
+#horarios {
+
+    padding: 4rem 1.2rem;
+
+}
+
+
+#horarios h2 {
+
+    font-size: 2.3rem;
+
+}
+
+
+.horarios-content {
+
+    grid-template-columns: 1fr;
+
+    gap: 1rem;
+
+}
+
+
+.horario-item {
+
+    padding: 2rem 1.5rem;
+
+}
+
+
+/* Formulario */
+
+.booking-container {
+
+    margin: 2rem 1rem;
+
+    padding: 2rem 1.2rem;
+
+}
+
+
+.booking-container h2 {
+
+    font-size: 2.4rem;
+
+}
+
+}
+
+/* ==========================================================================
+MÓVILES PEQUEÑOS
+========================================================================== */
+
+@media (max-width: 480px) {
+
+.hero-content h1 {
+
+    font-size: 2.9rem;
+
+}
+
+
+.hero-content h2 {
+
+    font-size: 1.5rem;
+
+}
+
+
+nav ul {
+
+    gap: 0.7rem 1rem;
+
+}
+
+
+nav a {
+
+    font-size: 0.68rem;
+
+}
+
+
+.btn-primary {
+
+    width: 100%;
+
+}
+
+}
+
+/* ==========================================================================
+HERO — IMAGEN DE BIENVENIDA DESDE UNSPLASH
+========================================================================== */
+
+#hero {
+
+min-height: 75vh;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+text-align: center;
+
+padding: 6rem 5%;
+
+position: relative;
+
+overflow: hidden;
+
+/*
+   Imagen de Unsplash.
+
+   El parámetro:
+   ?auto=format&fit=crop&w=2000&q=85
+
+   permite obtener una imagen optimizada para web.
+*/
+
+background-image:
+    linear-gradient(
+        rgba(0, 0, 0, 0.48),
+        rgba(0, 0, 0, 0.48)
+    ),
+    url('https://unsplash.com/photos/woman-in-black-tank-top-nZU2w8I0JI8?utm_source=chatgpt.com');
+
+background-size: cover;
+
+background-position: center;
+
+background-repeat: no-repeat;
+
+/*
+   Mezcla la imagen con la capa oscura.
+*/
+
+background-blend-mode: multiply;
+
+}
+
+/* ==========================================================================
+CONTENIDO DEL HERO
+========================================================================== */
+
+.hero-content {
+
+max-width: 850px;
+
+margin: 0 auto;
+
+position: relative;
+
+z-index: 2;
+
+color: var(--white);
+
+}
+
+/* ==========================================================================
+ICONO
+========================================================================== */
+
+.hero-icon {
+
+display: inline-flex;
+
+align-items: center;
+
+justify-content: center;
+
+width: 55px;
+
+height: 55px;
+
+border: 1px solid var(--white);
+
+border-radius: 50%;
+
+margin-bottom: 1.5rem;
+
+}
+
+.hero-icon i {
+
+font-size: 1.2rem;
+
+color: var(--white);
+
+}
+
+/* ==========================================================================
+TÍTULO
+========================================================================== */
+
+.hero-content h1 {
+
+font-family: var(--font-heading);
+
+font-size: clamp(3.5rem, 7vw, 6rem);
+
+font-weight: 500;
+
+line-height: 0.95;
+
+letter-spacing: -1px;
+
+color: var(--white);
+
+margin-bottom: 1rem;
+
+}
+
+/* ==========================================================================
+SUBTÍTULO
+========================================================================== */
+
+.hero-content h2 {
+
+font-family: var(--font-heading);
+
+font-size: clamp(1.7rem, 3vw, 2.5rem);
+
+font-weight: 400;
+
+font-style: italic;
+
+color: var(--white);
+
+margin-bottom: 1.8rem;
+
+}
+
+.hero-content h2 i {
+
+font-size: 1rem;
+
+margin-left: 0.4rem;
+
+color: var(--white);
+
+}
+
+/* ==========================================================================
+DESCRIPCIÓN
+========================================================================== */
+
+.hero-content p {
+
+max-width: 650px;
+
+margin: 0 auto 2.5rem;
+
+color: rgba(255, 255, 255, 0.92);
+
+font-size: 0.95rem;
+
+font-weight: 300;
+
+line-height: 1.9;
+
+}
+
+/* ==========================================================================
+BOTÓN
+========================================================================== */
+
+.hero-content .btn-primary {
+
+background-color: var(--white);
+
+color: var(--black);
+
+border: 1px solid var(--white);
+
+}
+
+.hero-content .btn-primary {
+
+background-color: transparent;
+
+color: var(--white);
+
+border-color: var(--white);
+
 }
