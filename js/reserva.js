@@ -1,7 +1,11 @@
 // Importar la instancia de la base de datos que configuramos previamente
 import { db } from './firebase-config.js';
 // Importar las funciones necesarias de Firestore desde el CDN
-import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+import {
+    collection,
+    addDoc,
+    serverTimestamp,
+} from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js';
 
 // Esperar a que el DOM cargue completamente
 document.addEventListener('DOMContentLoaded', () => {
@@ -25,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Guardar los datos en una colección llamada 'reservas' en Firestore
-            const docRef = await addDoc(collection(db, "reservas"), {
+            const docRef = await addDoc(collection(db, 'reservas'), {
                 nombre: nombre,
                 telefono: telefono,
                 servicio: servicio,
@@ -33,15 +37,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 hora: hora,
                 notas: notas,
                 estado: 'pendiente', // Por defecto entra como pendiente para que el admin la revise
-                fechaCreacion: serverTimestamp() // Marca de tiempo exacta del servidor
+                fechaCreacion: serverTimestamp(), // Marca de tiempo exacta del servidor
             });
 
-            console.log("Reserva guardada con el ID: ", docRef.id);
+            console.log('Reserva guardada con el ID: ', docRef.id);
 
             // Mostrar mensaje de éxito
-            formMessage.textContent = '¡Tu reserva ha sido confirmada con éxito! Te esperamos.';
+            formMessage.textContent =
+                '¡Tu reserva ha sido confirmada con éxito! Te esperamos.';
             formMessage.style.color = 'green';
-            
+
             // Limpiar los campos del formulario
             bookingForm.reset();
 
@@ -49,12 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 formMessage.textContent = '';
             }, 5000);
-
         } catch (error) {
-            console.error("Error al guardar la reserva: ", error);
-            
+            console.error('Error al guardar la reserva: ', error);
+
             // Mostrar mensaje de error al usuario
-            formMessage.textContent = 'Hubo un error al procesar la reserva. Por favor, intenta de nuevo.';
+            formMessage.textContent =
+                'Hubo un error al procesar la reserva. Por favor, intenta de nuevo.';
             formMessage.style.color = 'red';
         }
     });

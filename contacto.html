@@ -1,628 +1,256 @@
-<!DOCTYPE html>
-
-<html lang="es"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<meta name="description" content="Contáctanos en Glamurosa Nails & Brows. Encuentra nuestra ubicación y nuestras redes sociales.">
-<meta name="theme-color" content="#111111">
-
-<title>Contacto | Glamurosa Nails & Brows</title>
-
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
-
-<!-- Google Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-<!-- CSS -->
-<link rel="stylesheet" href="css/style.css">
-
-<style>
-    /* ================================
-       PÁGINA DE CONTACTO
-    ================================= */
-
-    .contact-page {
-        background: #ffffff;
-        color: #111111;
-    }
-
-    /* Encabezado */
-
-    .contact-hero {
-        min-height: 42vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 5rem 5%;
-        background:
-            linear-gradient(
-                rgba(0, 0, 0, 0.72),
-                rgba(0, 0, 0, 0.72)
-            ),
-            url('https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=2000&q=85');
-
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-blend-mode: multiply;
-    }
-
-    .contact-hero-content {
-        max-width: 800px;
-        color: #ffffff;
-    }
-
-    .contact-hero-icon {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-    }
-
-    .contact-hero h1 {
-        font-family: 'Cormorant Garamond', Georgia, serif;
-        font-size: clamp(3rem, 7vw, 5rem);
-        font-weight: 600;
-        line-height: 1;
-        margin: 0 0 1rem;
-    }
-
-    .contact-hero p {
-        font-family: 'Montserrat', Arial, sans-serif;
-        font-size: 0.95rem;
-        font-weight: 300;
-        letter-spacing: 0.08em;
-        line-height: 1.8;
-        margin: 0;
-    }
-
-    /* Contenido */
-
-    .contact-section {
-        padding: 5rem 5%;
-    }
-
-    .contact-container {
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    .contact-title {
-        text-align: center;
-        margin-bottom: 3.5rem;
-    }
-
-    .contact-title span {
-        display: block;
-        font-family: 'Montserrat', Arial, sans-serif;
-        font-size: 0.75rem;
-        font-weight: 600;
-        letter-spacing: 0.25em;
-        text-transform: uppercase;
-        margin-bottom: 0.8rem;
-        color: #777777;
-    }
-
-    .contact-title h2 {
-        font-family: 'Cormorant Garamond', Georgia, serif;
-        font-size: clamp(2.3rem, 5vw, 3.5rem);
-        font-weight: 600;
-        margin: 0;
-    }
-
-    .contact-title p {
-        max-width: 650px;
-        margin: 1rem auto 0;
-        color: #666666;
-        font-family: 'Montserrat', Arial, sans-serif;
-        font-size: 0.9rem;
-        line-height: 1.8;
-    }
-
-    /* Grid */
-
-    .contact-grid {
-        display: grid;
-        grid-template-columns: 0.85fr 1.15fr;
-        gap: 4rem;
-        align-items: stretch;
-    }
-
-    /* Información */
-
-    .contact-info {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-
-    .contact-card {
-        border: 1px solid #dddddd;
-        padding: 1.8rem;
-        transition: all 0.3s ease;
-        background: #ffffff;
-    }
-
-    .contact-card:hover {
-        border-color: #111111;
-        transform: translateY(-3px);
-    }
-
-    .contact-card-icon {
-        width: 48px;
-        height: 48px;
-        border: 1px solid #111111;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 1rem;
-        font-size: 1rem;
-    }
-
-    .contact-card h3 {
-        font-family: 'Cormorant Garamond', Georgia, serif;
-        font-size: 1.6rem;
-        font-weight: 600;
-        margin: 0 0 0.5rem;
-    }
-
-    .contact-card p {
-        font-family: 'Montserrat', Arial, sans-serif;
-        font-size: 0.85rem;
-        line-height: 1.7;
-        color: #666666;
-        margin: 0;
-    }
-
-    .contact-card a {
-        color: #111111;
-        text-decoration: none;
-        font-family: 'Montserrat', Arial, sans-serif;
-        font-size: 0.85rem;
-        line-height: 1.7;
-    }
-
-    .contact-card a:hover {
-        text-decoration: underline;
-    }
-
-    /* Redes sociales */
-
-    .social-links {
-        display: flex;
-        gap: 0.8rem;
-        margin-top: 0.8rem;
-    }
-
-    .social-links a {
-        width: 44px;
-        height: 44px;
-        border: 1px solid #111111;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #111111;
-        transition: all 0.3s ease;
-    }
-
-    .social-links a:hover {
-        background: #111111;
-        color: #ffffff;
-    }
-
-    /* Mapa */
-
-    .map-container {
-        min-height: 500px;
-        border: 1px solid #dddddd;
-        overflow: hidden;
-    }
-
-    .map-container iframe {
-        width: 100%;
-        height: 100%;
-        min-height: 500px;
-        display: block;
-        border: 0;
-    }
-
-    /* CTA */
-
-    .contact-cta {
-        margin-top: 4rem;
-        padding: 3rem 2rem;
-        text-align: center;
-        background: #111111;
-        color: #ffffff;
-    }
-
-    .contact-cta h2 {
-        font-family: 'Cormorant Garamond', Georgia, serif;
-        font-size: 2.5rem;
-        font-weight: 600;
-        margin: 0 0 0.7rem;
-    }
-
-    .contact-cta p {
-        font-family: 'Montserrat', Arial, sans-serif;
-        font-size: 0.85rem;
-        font-weight: 300;
-        line-height: 1.7;
-        margin: 0 0 1.5rem;
-        color: #dddddd;
-    }
-
-    .contact-cta .btn-primary {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.6rem;
-        background: #ffffff;
-        color: #111111;
-        padding: 0.9rem 1.8rem;
-        text-decoration: none;
-        font-family: 'Montserrat', Arial, sans-serif;
-        font-size: 0.75rem;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        transition: all 0.3s ease;
-    }
-
-    .contact-cta .btn-primary:hover {
-        background: #dddddd;
-    }
-
-    /* Responsive */
-
-    @media (max-width: 900px) {
-        .contact-grid {
-            grid-template-columns: 1fr;
-            gap: 2.5rem;
-        }
-
-        .map-container {
-            min-height: 400px;
-        }
-
-        .map-container iframe {
-            min-height: 400px;
-        }
-    }
-
-    @media (max-width: 600px) {
-        .contact-hero {
-            min-height: 35vh;
-            padding: 4rem 1.5rem;
-        }
-
-        .contact-section {
-            padding: 4rem 1.2rem;
-        }
-
-        .contact-card {
-            padding: 1.4rem;
-        }
-
-        .map-container,
-        .map-container iframe {
-            min-height: 350px;
-        }
-
-        .contact-cta {
-            padding: 2.5rem 1.2rem;
-        }
-
-        .contact-cta h2 {
-            font-size: 2.1rem;
-        }
-    }
-</style>
-
-</head>
-
-<body class="contact-page">
-
-<!-- ================================
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="Contáctanos en GLAMUROSA Nails & Brows. Encuentra nuestra ubicación y nuestras redes sociales."
+        />
+        <meta name="theme-color" content="#111111" />
+        <title>Contacto | GLAMUROSA Nails & Brows</title>
+        <!-- PWA -->
+        <link rel="manifest" href="manifest.json" />
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <!-- Font Awesome -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        />
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/contacto.css" />
+    </head>
+    <body class="contact-page">
+        <!-- ================================
      HEADER
 ================================= -->
-<header class="header">
-    <div class="container">
-
-        <div class="logo">
-            <a href="index.html">
-                <img
-                    src="assets/img/LOGO_GLAMUROSA.png"
-                    alt="Glamurosa Nails & Brows"
-                    width="150"
-                >
-            </a>
-        </div>
-
-        <nav class="nav" aria-label="Navegación principal">
-            <a href="index.html">
-                <i class="fa-solid fa-house"></i>
-                Inicio
-            </a>
-
-            <a href="index.html#nosotros">
-                <i class="fa-solid fa-heart"></i>
-                Nosotros
-            </a>
-
-            <a href="index.html#servicios">
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
-                Servicios
-            </a>
-
-            <a href="index.html#horarios">
-                <i class="fa-regular fa-clock"></i>
-                Horarios
-            </a>
-
-            <a href="contacto.html" class="active">
-                <i class="fa-solid fa-phone"></i>
-                Contacto
-            </a>
-
-            <a href="reserva.html" class="btn-nav">
-                <i class="fa-solid fa-calendar-check"></i>
-                Reservar Cita
-            </a>
-
-            <a href="login.html">
-                <i class="fa-solid fa-user"></i>
-                Iniciar Sesión
-            </a>
-        </nav>
-
-    </div>
-</header>
-
-
-<!-- ================================
+        <header>
+            <div class="logo">
+                <a href="index.html" aria-label="Ir al inicio">
+                    <img
+                        src="assets/img/LOGO_GLAMUROSA.png"
+                        alt="Logo de GLAMUROSA Nails & Brows"
+                        width="150"
+                    />
+                </a>
+            </div>
+            <nav aria-label="Navegación principal">
+                <ul>
+                    <li>
+                        <a href="index.html">
+                            <i class="fa-solid fa-house" aria-hidden="true"></i>
+                            Inicio
+                        </a>
+                    </li>
+                    <li>
+                        <a href="nosotros.html">
+                            <i class="fa-solid fa-heart" aria-hidden="true"></i>
+                            Nosotros
+                        </a>
+                    </li>
+                    <li>
+                        <a href="servicios.html">
+                            <i
+                                class="fa-solid fa-wand-magic-sparkles"
+                                aria-hidden="true"
+                            ></i>
+                            Servicios
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html#horarios">
+                            <i
+                                class="fa-regular fa-clock"
+                                aria-hidden="true"
+                            ></i>
+                            Horarios
+                        </a>
+                    </li>
+                    <li>
+                        <a href="contacto.html">
+                            <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                            Contacto
+                        </a>
+                    </li>
+                    <li>
+                        <a href="reserva.html" class="nav-reserva">
+                            <i
+                                class="fa-solid fa-calendar-check"
+                                aria-hidden="true"
+                            ></i>
+                            Reservar Cita
+                        </a>
+                    </li>
+                    <li>
+                        <a href="login.html">
+                            <i class="fa-solid fa-user" aria-hidden="true"></i>
+                            Iniciar Sesión / Admin
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <!-- ================================
      HERO
 ================================= -->
-<main>
-
-    <section class="contact-hero">
-
-        <div class="contact-hero-content">
-
-            <div class="contact-hero-icon">
-                <i class="fa-solid fa-location-dot"></i>
-            </div>
-
-            <h1>Contáctanos</h1>
-
-            <p>
-                Estamos aquí para hacerte sentir y lucir espectacular.
-                Encuéntranos y conecta con Glamurosa.
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================================
+        <main>
+            <section class="contact-hero">
+                <div class="contact-hero-content">
+                    <div class="contact-hero-icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <h1>Contáctanos</h1>
+                    <p>
+                        Estamos aquí para hacerte sentir y lucir espectacular.
+                        Encuéntranos y conecta con GLAMUROSA.
+                    </p>
+                </div>
+            </section>
+            <!-- ================================
          CONTACTO
     ================================= -->
-    <section class="contact-section">
-
-        <div class="contact-container">
-
-            <div class="contact-title">
-
-                <span>Glamurosa Nails & Brows</span>
-
-                <h2>Encuéntranos</h2>
-
-                <p>
-                    Visítanos en nuestro salón o síguenos en nuestras
-                    redes sociales para conocer nuestros trabajos,
-                    novedades y servicios.
-                </p>
-
-            </div>
-
-
-            <div class="contact-grid">
-
-                <!-- Información -->
-                <div class="contact-info">
-
-                    <!-- Ubicación -->
-                    <div class="contact-card">
-
-                        <div class="contact-card-icon">
-                            <i class="fa-solid fa-location-dot"></i>
-                        </div>
-
-                        <h3>Ubicación</h3>
-
+            <section class="contact-section">
+                <div class="contact-container">
+                    <div class="contact-title">
+                        <span>GLAMUROSA Nails & Brows</span>
+                        <h2>Encuéntranos</h2>
                         <p>
-                            Visítanos en nuestro salón y disfruta
-                            de una experiencia de belleza pensada
-                            especialmente para ti.
+                            Visítanos en nuestro salón o síguenos en nuestras
+                            redes sociales para conocer nuestros trabajos,
+                            novedades y servicios.
                         </p>
-
                     </div>
-
-
-                    <!-- Horario -->
-                    <div class="contact-card">
-
-                        <div class="contact-card-icon">
-                            <i class="fa-regular fa-clock"></i>
+                    <div class="contact-grid">
+                        <!-- Información -->
+                        <div class="contact-info">
+                            <!-- Ubicación -->
+                            <div class="contact-card">
+                                <div class="contact-card-icon">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </div>
+                                <h3>Ubicación</h3>
+                                <p>
+                                    Visítanos en nuestro salón y disfruta de una
+                                    experiencia de belleza pensada especialmente
+                                    para ti.
+                                </p>
+                            </div>
+                            <!-- Horario -->
+                            <div class="contact-card">
+                                <div class="contact-card-icon">
+                                    <i class="fa-regular fa-clock"></i>
+                                </div>
+                                <h3>Horario</h3>
+                                <p>
+                                    <strong>Atención:</strong><br />
+                                    8:00 am - 4:00 pm
+                                    <br /><br />
+                                    <strong>Citas:</strong><br />
+                                    8:00 am - 11:00 am<br />
+                                    2:00 pm
+                                </p>
+                            </div>
+                            <!-- Redes sociales -->
+                            <div class="contact-card">
+                                <div class="contact-card-icon">
+                                    <i class="fa-solid fa-share-nodes"></i>
+                                </div>
+                                <h3>Síguenos</h3>
+                                <p>
+                                    Conoce nuestros trabajos y novedades a
+                                    través de nuestras redes sociales.
+                                </p>
+                                <div class="social-links">
+                                    <a
+                                        href="https://www.instagram.com/glamurosanc__/?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw=="
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="Instagram de GLAMUROSA"
+                                    >
+                                        <i class="fa-brands fa-instagram"></i>
+                                    </a>
+                                    <a
+                                        href="https://www.facebook.com/share/1BTaDsKUDc/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="Facebook de GLAMUROSA"
+                                    >
+                                        <i class="fa-brands fa-facebook-f"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-
-                        <h3>Horario</h3>
-
+                        <!-- Mapa -->
+                        <div class="map-container">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3547.252491197212!2d-88.2701667!3d13.7647222!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTPCsDQ1JzUzLjAiTiA4OMKwMTYnMTIuNiJX!5e1!3m2!1ses-419!2ssv!4v1790743014349!5m2!1ses-419!2ssv"
+                                width="600"
+                                height="450"
+                                style="border: 0"
+                                allowfullscreen=""
+                                loading="lazy"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                title="Ubicación de GLAMUROSA Nails & Brows"
+                            ></iframe>
+                        </div>
+                    </div>
+                    <!-- CTA -->
+                    <div class="contact-cta">
+                        <h2>¿Lista para consentirte?</h2>
                         <p>
-                            <strong>Atención:</strong><br>
-                            8:00 am - 4:00 pm
-                            <br><br>
-                            <strong>Citas:</strong><br>
-                            8:00 am - 11:00 am<br>
-                            2:00 pm
+                            Reserva tu cita y déjanos ayudarte a resaltar tu
+                            belleza natural.
                         </p>
-
+                        <a href="reserva.html" class="btn-primary">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            Reservar mi cita
+                        </a>
                     </div>
-
-
-                    <!-- Redes sociales -->
-                    <div class="contact-card">
-
-                        <div class="contact-card-icon">
-                            <i class="fa-solid fa-share-nodes"></i>
-                        </div>
-
-                        <h3>Síguenos</h3>
-
-                        <p>
-                            Conoce nuestros trabajos y novedades
-                            a través de nuestras redes sociales.
-                        </p>
-
-                        <div class="social-links">
-
-                            <a
-                                href="https://www.instagram.com/glamurosanc__/?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw=="
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label="Instagram de Glamurosa"
-                            >
-                                <i class="fa-brands fa-instagram"></i>
-                            </a>
-
-                            <a
-                                href="https://www.facebook.com/share/1BTaDsKUDc/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label="Facebook de Glamurosa"
-                            >
-                                <i class="fa-brands fa-facebook-f"></i>
-                            </a>
-
-                        </div>
-
-                    </div>
-
                 </div>
-
-
-                <!-- Mapa -->
-                <div class="map-container">
-
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3547.252491197212!2d-88.2701667!3d13.7647222!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTPCsDQ1JzUzLjAiTiA4OMKwMTYnMTIuNiJX!5e1!3m2!1ses-419!2ssv!4v1790743014349!5m2!1ses-419!2ssv"
-                        width="600"
-                        height="450"
-                        style="border:0;"
-                        allowfullscreen=""
-                        loading="lazy"
-                        referrerpolicy="strict-origin-when-cross-origin"
-                        title="Ubicación de Glamurosa Nails & Brows"
-                    ></iframe>
-
-                </div>
-
-            </div>
-
-
-            <!-- CTA -->
-            <div class="contact-cta">
-
-                <h2>¿Lista para consentirte?</h2>
-
-                <p>
-                    Reserva tu cita y déjanos ayudarte a resaltar
-                    tu belleza natural.
-                </p>
-
-                <a href="reserva.html" class="btn-primary">
-                    <i class="fa-solid fa-calendar-check"></i>
-                    Reservar mi cita
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
-
-</main>
-
-
-<!-- ================================
+            </section>
+        </main>
+        <!-- ================================
      FOOTER
 ================================= -->
-<footer class="footer">
-
-    <div class="footer-logo">
-        <i class="fa-solid fa-spa"></i>
-        <span>Glamurosa Nails & Brows</span>
-    </div>
-
-    <div class="footer-social">
-
-        <a
-            href="https://www.instagram.com/glamurosanc__/?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw=="
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram"
-        >
-            <i class="fa-brands fa-instagram"></i>
-        </a>
-
-        <a
-            href="https://www.facebook.com/share/1BTaDsKUDc/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Facebook"
-        >
-            <i class="fa-brands fa-facebook-f"></i>
-        </a>
-
-    </div>
-
-    <p>
-        <i class="fa-regular fa-copyright"></i>
-        2026 Glamurosa Nails & Brows. Todos los derechos reservados.
-    </p>
-
-</footer>
-
-
-<!-- ================================
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fa-solid fa-spa" aria-hidden="true"></i>
+                    <span> GLAMUROSA Nails & Brows </span>
+                </div>
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram">
+                        <i
+                            class="fa-brands fa-instagram"
+                            aria-hidden="true"
+                        ></i>
+                    </a>
+                    <a href="#" aria-label="Facebook">
+                        <i
+                            class="fa-brands fa-facebook-f"
+                            aria-hidden="true"
+                        ></i>
+                    </a>
+                    <a href="#" aria-label="WhatsApp">
+                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <p>
+                    <i class="fa-regular fa-copyright" aria-hidden="true"></i>
+                    2026 GLAMUROSA Nails & Brows. Todos los derechos reservados.
+                </p>
+            </div>
+        </footer>
+        <!-- ================================
      SERVICE WORKER
 ================================= -->
-<script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-
-            navigator.serviceWorker.register('./service-worker.js')
-                .then(registration => {
-                    console.log(
-                        'ServiceWorker registrado con éxito con el scope: ',
-                        registration.scope
-                    );
-                })
-                .catch(err => {
-                    console.error(
-                        'El registro del ServiceWorker falló: ',
-                        err
-                    );
-                });
-
-        });
-    }
-</script>
-
-</body> </html>
+        <script src="js/pwa.js"></script>
+    </body>
+</html>
