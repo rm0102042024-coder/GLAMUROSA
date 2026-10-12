@@ -1,22 +1,209 @@
+
 <!doctype html>
 <html lang="es">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#111111" />
+        <meta
+            name="description"
+            content="Accede a tu cuenta de GLAMUROSA Nails & Brows y gestiona tus citas."
+        />
         <title>Iniciar sesión | GLAMUROSA Nails & Brows</title>
-        <!-- Manifest de la PWA -->
+
         <link rel="manifest" href="manifest.json" />
-        <!-- Font Awesome -->
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         />
-        <!-- Hoja de estilos principal -->
         <link rel="stylesheet" href="css/style.css" />
+
+        <style>
+            .auth-main {
+                min-height: 65vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 48px 18px;
+                background: #faf6f5;
+            }
+
+            .auth-card {
+                width: 100%;
+                max-width: 440px;
+                padding: 32px;
+                background: #fff;
+                border: 1px solid #eadbdc;
+                border-radius: 18px;
+                box-shadow: 0 12px 35px rgb(30 20 20 / 8%);
+            }
+
+            .auth-brand {
+                text-align: center;
+                margin-bottom: 24px;
+            }
+
+            .auth-brand .auth-icon {
+                color: #b77b83;
+                font-size: 30px;
+                margin-bottom: 10px;
+            }
+
+            .auth-brand h1 {
+                margin: 0 0 8px;
+                color: #292324;
+                font-size: 1.7rem;
+            }
+
+            .auth-brand p {
+                margin: 0;
+                color: #716568;
+                font-size: 0.95rem;
+            }
+
+            .auth-tabs {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+                margin-bottom: 24px;
+            }
+
+            .auth-tab {
+                padding: 11px 8px;
+                border: 1px solid #e4d2d4;
+                border-radius: 9px;
+                background: #fff;
+                color: #514447;
+                font: inherit;
+                cursor: pointer;
+            }
+
+            .auth-tab[aria-selected="true"] {
+                background: #f3e3e5;
+                border-color: #c28d94;
+                color: #5c343b;
+                font-weight: 700;
+            }
+
+            .auth-form[hidden],
+            [hidden] {
+                display: none !important;
+            }
+
+            .auth-field {
+                margin-bottom: 17px;
+            }
+
+            .auth-field label {
+                display: block;
+                margin-bottom: 7px;
+                color: #332b2d;
+                font-weight: 600;
+            }
+
+            .auth-field input {
+                box-sizing: border-box;
+                width: 100%;
+                padding: 12px 13px;
+                border: 1px solid #d9cacc;
+                border-radius: 9px;
+                background: #fff;
+                color: #292324;
+                font: inherit;
+            }
+
+            .auth-field input:focus {
+                outline: 2px solid #c28d94;
+                outline-offset: 2px;
+            }
+
+            .auth-submit {
+                width: 100%;
+                padding: 13px 16px;
+                border: 0;
+                border-radius: 9px;
+                background: #a96873;
+                color: #fff;
+                font: inherit;
+                font-weight: 700;
+                cursor: pointer;
+                transition: background 0.2s ease;
+            }
+
+            .auth-submit:hover {
+                background: #8d515c;
+            }
+
+            .auth-submit:disabled {
+                cursor: wait;
+                opacity: 0.65;
+            }
+
+            .auth-link {
+                display: inline-block;
+                margin-top: 14px;
+                color: #89535c;
+                text-decoration: underline;
+                cursor: pointer;
+                background: none;
+                border: 0;
+                padding: 0;
+                font: inherit;
+            }
+
+            .auth-message {
+                margin: 0 0 18px;
+                padding: 12px;
+                border-radius: 8px;
+                font-size: 0.93rem;
+                line-height: 1.45;
+            }
+
+            .auth-message:empty {
+                display: none;
+            }
+
+            .auth-message[data-type="error"] {
+                color: #8b2020;
+                background: #fff0f0;
+                border: 1px solid #efcaca;
+            }
+
+            .auth-message[data-type="success"] {
+                color: #205c3b;
+                background: #edf9f1;
+                border: 1px solid #c7e8d2;
+            }
+
+            .auth-message[data-type="info"] {
+                color: #4c465d;
+                background: #f3f0fa;
+                border: 1px solid #ded6ef;
+            }
+
+            .auth-back {
+                display: block;
+                margin: 18px auto 0;
+                text-align: center;
+            }
+
+            .auth-note {
+                margin: 20px 0 0;
+                color: #716568;
+                font-size: 0.82rem;
+                text-align: center;
+                line-height: 1.5;
+            }
+
+            @media (max-width: 480px) {
+                .auth-card {
+                    padding: 24px 19px;
+                }
+            }
+        </style>
     </head>
+
     <body>
-        <!-- Encabezado y navegación -->
         <header>
             <div class="logo">
                 <a href="index.html" aria-label="Ir al inicio">
@@ -27,6 +214,7 @@
                     />
                 </a>
             </div>
+
             <nav aria-label="Navegación principal">
                 <ul>
                     <li>
@@ -43,19 +231,13 @@
                     </li>
                     <li>
                         <a href="servicios.html">
-                            <i
-                                class="fa-solid fa-wand-magic-sparkles"
-                                aria-hidden="true"
-                            ></i>
+                            <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
                             Servicios
                         </a>
                     </li>
                     <li>
                         <a href="index.html#horarios">
-                            <i
-                                class="fa-regular fa-clock"
-                                aria-hidden="true"
-                            ></i>
+                            <i class="fa-regular fa-clock" aria-hidden="true"></i>
                             Horarios
                         </a>
                     </li>
@@ -67,15 +249,12 @@
                     </li>
                     <li>
                         <a href="reserva.html" class="nav-reserva">
-                            <i
-                                class="fa-solid fa-calendar-check"
-                                aria-hidden="true"
-                            ></i>
+                            <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
                             Reservar Cita
                         </a>
                     </li>
                     <li>
-                        <a href="login.html">
+                        <a href="login.html" aria-current="page">
                             <i class="fa-solid fa-user" aria-hidden="true"></i>
                             Iniciar Sesión / Admin
                         </a>
@@ -84,32 +263,203 @@
             </nav>
         </header>
 
-        <main></main>
+        <main class="auth-main">
+            <section class="auth-card" aria-labelledby="auth-title">
+                <div class="auth-brand">
+                    <div class="auth-icon" aria-hidden="true">
+                        <i class="fa-solid fa-spa"></i>
+                    </div>
+                    <h1 id="auth-title">Bienvenida a Glamurosa</h1>
+                    <p id="auth-subtitle">
+                        Inicia sesión para continuar con tus citas.
+                    </p>
+                </div>
 
-        <!-- Pie de página -->
+                <div class="auth-tabs" role="tablist" aria-label="Opciones de cuenta">
+                    <button
+                        class="auth-tab"
+                        id="tab-login"
+                        type="button"
+                        role="tab"
+                        aria-controls="form-login"
+                        aria-selected="true"
+                    >
+                        Iniciar sesión
+                    </button>
+                    <button
+                        class="auth-tab"
+                        id="tab-register"
+                        type="button"
+                        role="tab"
+                        aria-controls="form-register"
+                        aria-selected="false"
+                    >
+                        Crear cuenta
+                    </button>
+                </div>
+
+                <div
+                    id="auth-message"
+                    class="auth-message"
+                    role="status"
+                    aria-live="polite"
+                ></div>
+
+                <form id="form-login" class="auth-form" novalidate>
+                    <div class="auth-field">
+                        <label for="login-email">Correo electrónico</label>
+                        <input
+                            id="login-email"
+                            name="email"
+                            type="email"
+                            autocomplete="email"
+                            placeholder="tu@correo.com"
+                            required
+                        />
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="login-password">Contraseña</label>
+                        <input
+                            id="login-password"
+                            name="password"
+                            type="password"
+                            autocomplete="current-password"
+                            placeholder="Tu contraseña"
+                            minlength="6"
+                            required
+                        />
+                    </div>
+
+                    <button class="auth-submit" type="submit">
+                        Iniciar sesión
+                    </button>
+
+                    <button
+                        class="auth-link"
+                        id="show-recovery"
+                        type="button"
+                    >
+                        ¿Olvidaste tu contraseña?
+                    </button>
+                </form>
+
+                <form id="form-register" class="auth-form" hidden novalidate>
+                    <div class="auth-field">
+                        <label for="register-name">Nombre completo</label>
+                        <input
+                            id="register-name"
+                            name="name"
+                            type="text"
+                            autocomplete="name"
+                            maxlength="100"
+                            placeholder="Tu nombre"
+                            required
+                        />
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="register-email">Correo electrónico</label>
+                        <input
+                            id="register-email"
+                            name="email"
+                            type="email"
+                            autocomplete="email"
+                            placeholder="tu@correo.com"
+                            required
+                        />
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="register-password">Contraseña</label>
+                        <input
+                            id="register-password"
+                            name="password"
+                            type="password"
+                            autocomplete="new-password"
+                            minlength="6"
+                            placeholder="Mínimo 6 caracteres"
+                            required
+                        />
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="register-password-confirm">
+                            Confirmar contraseña
+                        </label>
+                        <input
+                            id="register-password-confirm"
+                            name="password-confirm"
+                            type="password"
+                            autocomplete="new-password"
+                            minlength="6"
+                            placeholder="Repite tu contraseña"
+                            required
+                        />
+                    </div>
+
+                    <button class="auth-submit" type="submit">
+                        Crear mi cuenta
+                    </button>
+                </form>
+
+                <form id="form-recovery" class="auth-form" hidden novalidate>
+                    <p>
+                        Escribe el correo asociado a tu cuenta y te enviaremos
+                        instrucciones para restablecer tu contraseña.
+                    </p>
+
+                    <div class="auth-field">
+                        <label for="recovery-email">Correo electrónico</label>
+                        <input
+                            id="recovery-email"
+                            name="email"
+                            type="email"
+                            autocomplete="email"
+                            placeholder="tu@correo.com"
+                            required
+                        />
+                    </div>
+
+                    <button class="auth-submit" type="submit">
+                        Enviar instrucciones
+                    </button>
+
+                    <button
+                        class="auth-link auth-back"
+                        id="back-to-login"
+                        type="button"
+                    >
+                        Volver a iniciar sesión
+                    </button>
+                </form>
+
+                <p class="auth-note">
+                    Tu cuenta te permite acceder a las funciones de reserva
+                    de GLAMUROSA Nails & Brows.
+                </p>
+            </section>
+        </main>
+
         <footer>
             <div class="footer-content">
                 <div class="footer-logo">
                     <i class="fa-solid fa-spa" aria-hidden="true"></i>
                     <span> GLAMUROSA Nails & Brows </span>
                 </div>
+
                 <div class="footer-social">
                     <a href="#" aria-label="Instagram">
-                        <i
-                            class="fa-brands fa-instagram"
-                            aria-hidden="true"
-                        ></i>
+                        <i class="fa-brands fa-instagram" aria-hidden="true"></i>
                     </a>
                     <a href="#" aria-label="Facebook">
-                        <i
-                            class="fa-brands fa-facebook-f"
-                            aria-hidden="true"
-                        ></i>
+                        <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
                     </a>
                     <a href="#" aria-label="WhatsApp">
                         <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
                     </a>
                 </div>
+
                 <p>
                     <i class="fa-regular fa-copyright" aria-hidden="true"></i>
                     2026 GLAMUROSA Nails & Brows. Todos los derechos reservados.
@@ -118,5 +468,6 @@
         </footer>
 
         <script src="js/pwa.js"></script>
+        <script type="module" src="js/auth.js"></script>
     </body>
 </html>
