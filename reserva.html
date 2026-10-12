@@ -7,12 +7,13 @@
             name="description"
             content="Reserva tu cita en GLAMUROSA Nails & Brows. Elige tu servicio, fecha y hora de manera rápida y sencilla."
         />
-        <meta name="theme-color" content="#FF69B4" />
+        <meta name="theme-color" content="#111111" />
 
         <title>Reserva tu Cita | GLAMUROSA Nails & Brows</title>
 
         <!-- Enlace al Manifest de la PWA -->
         <link rel="manifest" href="manifest.json" />
+        <link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml" />
 
         <!-- Font Awesome -->
         <link
@@ -24,6 +25,7 @@
         <link rel="stylesheet" href="css/style.css" />
     </head>
     <body>
+        <a class="skip-link" href="#contenido">Saltar al contenido</a>
         <!-- Encabezado y Navegación -->
         <header>
             <div class="logo">
@@ -74,7 +76,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="reserva.html" class="nav-reserva">
+                        <a href="reserva.html" aria-current="page" class="nav-reserva">
                             <i
                                 class="fa-solid fa-calendar-check"
                                 aria-hidden="true"
@@ -85,27 +87,30 @@
                     <li>
                         <a href="login.html">
                             <i class="fa-solid fa-user" aria-hidden="true"></i>
-                            Iniciar Sesión / Admin
+                            Mi cuenta
                         </a>
                     </li>
                 </ul>
             </nav>
         </header>
 
-        <main>
+        <main id="contenido">
             <section class="booking-container">
-                <h2>Reserva tu Cita</h2>
+                <noscript><p>Activa JavaScript para acceder a tu cuenta y solicitar una cita.</p></noscript>
+                <h1>Reserva tu Cita</h1>
                 <p>
                     Selecciona el servicio que deseas, la fecha y el horario que
                     mejor se adapte a ti.
                 </p>
 
-                <form id="booking-form" class="booking-form">
+                <div class="booking-session"><span id="session-user">Comprobando tu sesión…</span><button id="logout" type="button" hidden>Cerrar sesión</button></div>
+                <form method="post" id="booking-form" class="booking-form">
+                    <fieldset id="booking-fields" disabled>
                     <div class="form-group">
                         <label for="nombre">Nombre completo:</label>
                         <input
                             type="text"
-                            id="nombre"
+                            id="nombre" autocomplete="name" minlength="2" maxlength="100"
                             name="nombre"
                             placeholder="Ej. Maria López"
                             required
@@ -116,7 +121,7 @@
                         <label for="telefono">Teléfono / WhatsApp:</label>
                         <input
                             type="tel"
-                            id="telefono"
+                            id="telefono" autocomplete="tel" maxlength="20"
                             name="telefono"
                             placeholder="Ej. 7000 0000"
                             required
@@ -160,14 +165,15 @@
 
                     <div class="form-group">
                         <label for="hora"
-                            >Horario disponible de Lunes a Sabado:</label
+                            >Horario solicitado (lunes a sábado):</label
                         >
                         <select id="hora" name="hora" required>
                             <option value="" disabled selected>
                                 -- Selecciona la hora --
                             </option>
-                            <option value="08:00">04:00 PM</option>
+                            <option value="08:00">08:00 AM</option>
                             <option value="10:30">10:30 AM</option>
+                            <option value="14:00">02:00 PM</option>
                         </select>
                     </div>
 
@@ -176,7 +182,7 @@
                             >Notas o solicitudes especiales (opcional):</label
                         >
                         <textarea
-                            id="notas"
+                            id="notas" maxlength="1000"
                             name="notas"
                             rows="3"
                             placeholder="Ej. Tono preferido, uñas frágiles, alergias..."
@@ -184,8 +190,9 @@
                     </div>
 
                     <button type="submit" class="btn-primary">
-                        Confirmar Reserva
+                        Solicitar cita
                     </button>
+                    </fieldset>
                 </form>
 
                 <!-- Contenedor para mostrar mensajes de éxito o error enviados desde JS -->
@@ -205,20 +212,17 @@
                     <span> GLAMUROSA Nails & Brows </span>
                 </div>
                 <div class="footer-social">
-                    <a href="#" aria-label="Instagram">
+                    <a href="https://www.instagram.com/glamurosanc__/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                         <i
                             class="fa-brands fa-instagram"
                             aria-hidden="true"
                         ></i>
                     </a>
-                    <a href="#" aria-label="Facebook">
+                    <a href="https://www.facebook.com/share/1BTaDsKUDc/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                         <i
                             class="fa-brands fa-facebook-f"
                             aria-hidden="true"
                         ></i>
-                    </a>
-                    <a href="#" aria-label="WhatsApp">
-                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
                     </a>
                 </div>
                 <p>
@@ -229,6 +233,7 @@
         </footer>
 
         <!-- Script de lógica de reservas enlazado como ES Module -->
-        <script type="module" src="js/reserva.js"></script>
+        <script src="js/pwa.js"></script>
+        <script type="module" src="js/page-loader.js" data-page="reserva"></script>
     </body>
 </html>

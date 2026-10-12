@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /reservas/{reservaId} {
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly(['uid', 'email', 'nombre', 'telefono', 'servicio', 'fecha', 'hora', 'notas', 'estado', 'fechaCreacion'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.nombre is string
+        && request.resource.data.nombre.size() >= 2 && request.resource.data.nombre.size() <= 100
+        && request.resource.data.telefono is string
+        && request.resource.data.telefono.size() >= 8 && request.resource.data.telefono.size() <= 20
+        && request.resource.data.servicio in ['Semipermanentes', 'Builder Gel', 'Acrílicos', 'Pedicure Spa', 'Diseño y Depilación de Cejas', 'Laminado de Cejas', 'Lash Lifting']
+        && request.resource.data.fecha is string
+        && request.resource.data.fecha.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && request.resource.data.hora in ['08:00', '10:30', '14:00']
+        && request.resource.data.notas is string && request.resource.data.notas.size() <= 1000
+        && request.resource.data.estado == 'pendiente'
+        && request.resource.data.fechaCreacion == request.time;
+      allow read: if request.auth != null && resource.data.uid == request.auth.uid;
+    }
+  }
+}

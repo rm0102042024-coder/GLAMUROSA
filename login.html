@@ -12,198 +12,18 @@
         <title>Iniciar sesión | GLAMUROSA Nails & Brows</title>
 
         <link rel="manifest" href="manifest.json" />
+        <link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         />
         <link rel="stylesheet" href="css/style.css" />
 
-        <style>
-            .auth-main {
-                min-height: 65vh;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                padding: 48px 18px;
-                background: #faf6f5;
-            }
-
-            .auth-card {
-                width: 100%;
-                max-width: 440px;
-                padding: 32px;
-                background: #fff;
-                border: 1px solid #eadbdc;
-                border-radius: 18px;
-                box-shadow: 0 12px 35px rgb(30 20 20 / 8%);
-            }
-
-            .auth-brand {
-                text-align: center;
-                margin-bottom: 24px;
-            }
-
-            .auth-brand .auth-icon {
-                color: #b77b83;
-                font-size: 30px;
-                margin-bottom: 10px;
-            }
-
-            .auth-brand h1 {
-                margin: 0 0 8px;
-                color: #292324;
-                font-size: 1.7rem;
-            }
-
-            .auth-brand p {
-                margin: 0;
-                color: #716568;
-                font-size: 0.95rem;
-            }
-
-            .auth-tabs {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 8px;
-                margin-bottom: 24px;
-            }
-
-            .auth-tab {
-                padding: 11px 8px;
-                border: 1px solid #e4d2d4;
-                border-radius: 9px;
-                background: #fff;
-                color: #514447;
-                font: inherit;
-                cursor: pointer;
-            }
-
-            .auth-tab[aria-selected="true"] {
-                background: #f3e3e5;
-                border-color: #c28d94;
-                color: #5c343b;
-                font-weight: 700;
-            }
-
-            .auth-form[hidden],
-            [hidden] {
-                display: none !important;
-            }
-
-            .auth-field {
-                margin-bottom: 17px;
-            }
-
-            .auth-field label {
-                display: block;
-                margin-bottom: 7px;
-                color: #332b2d;
-                font-weight: 600;
-            }
-
-            .auth-field input {
-                box-sizing: border-box;
-                width: 100%;
-                padding: 12px 13px;
-                border: 1px solid #d9cacc;
-                border-radius: 9px;
-                background: #fff;
-                color: #292324;
-                font: inherit;
-            }
-
-            .auth-field input:focus {
-                outline: 2px solid #c28d94;
-                outline-offset: 2px;
-            }
-
-            .auth-submit {
-                width: 100%;
-                padding: 13px 16px;
-                border: 0;
-                border-radius: 9px;
-                background: #a96873;
-                color: #fff;
-                font: inherit;
-                font-weight: 700;
-                cursor: pointer;
-                transition: background 0.2s ease;
-            }
-
-            .auth-submit:hover {
-                background: #8d515c;
-            }
-
-            .auth-submit:disabled {
-                cursor: wait;
-                opacity: 0.65;
-            }
-
-            .auth-link {
-                display: inline-block;
-                margin-top: 14px;
-                color: #89535c;
-                text-decoration: underline;
-                cursor: pointer;
-                background: none;
-                border: 0;
-                padding: 0;
-                font: inherit;
-            }
-
-            .auth-message {
-                margin: 0 0 18px;
-                padding: 12px;
-                border-radius: 8px;
-                font-size: 0.93rem;
-                line-height: 1.45;
-            }
-
-            .auth-message:empty {
-                display: none;
-            }
-
-            .auth-message[data-type="error"] {
-                color: #8b2020;
-                background: #fff0f0;
-                border: 1px solid #efcaca;
-            }
-
-            .auth-message[data-type="success"] {
-                color: #205c3b;
-                background: #edf9f1;
-                border: 1px solid #c7e8d2;
-            }
-
-            .auth-message[data-type="info"] {
-                color: #4c465d;
-                background: #f3f0fa;
-                border: 1px solid #ded6ef;
-            }
-
-            .auth-back {
-                display: block;
-                margin: 18px auto 0;
-                text-align: center;
-            }
-
-            .auth-note {
-                margin: 20px 0 0;
-                color: #716568;
-                font-size: 0.82rem;
-                text-align: center;
-                line-height: 1.5;
-            }
-
-            @media (max-width: 480px) {
-                .auth-card {
-                    padding: 24px 19px;
-                }
-            }
-        </style>
+        <link rel="stylesheet" href="css/auth.css" />
     </head>
 
     <body>
+        <a class="skip-link" href="#contenido">Saltar al contenido</a>
         <header>
             <div class="logo">
                 <a href="index.html" aria-label="Ir al inicio">
@@ -256,14 +76,15 @@
                     <li>
                         <a href="login.html" aria-current="page">
                             <i class="fa-solid fa-user" aria-hidden="true"></i>
-                            Iniciar Sesión / Admin
+                            Mi cuenta
                         </a>
                     </li>
                 </ul>
             </nav>
         </header>
 
-        <main class="auth-main">
+        <main id="contenido" class="auth-main">
+            <noscript><p>Activa JavaScript para iniciar sesión o crear tu cuenta.</p></noscript>
             <section class="auth-card" aria-labelledby="auth-title">
                 <div class="auth-brand">
                     <div class="auth-icon" aria-hidden="true">
@@ -293,6 +114,7 @@
                         role="tab"
                         aria-controls="form-register"
                         aria-selected="false"
+                        tabindex="-1"
                     >
                         Crear cuenta
                     </button>
@@ -305,7 +127,7 @@
                     aria-live="polite"
                 ></div>
 
-                <form id="form-login" class="auth-form" novalidate>
+                <form method="post" id="form-login" class="auth-form" role="tabpanel" aria-labelledby="tab-login" novalidate>
                     <div class="auth-field">
                         <label for="login-email">Correo electrónico</label>
                         <input
@@ -331,7 +153,7 @@
                         />
                     </div>
 
-                    <button class="auth-submit" type="submit">
+                    <button class="auth-submit" type="submit" disabled>
                         Iniciar sesión
                     </button>
 
@@ -344,7 +166,7 @@
                     </button>
                 </form>
 
-                <form id="form-register" class="auth-form" hidden novalidate>
+                <form method="post" id="form-register" class="auth-form" role="tabpanel" aria-labelledby="tab-register" hidden novalidate>
                     <div class="auth-field">
                         <label for="register-name">Nombre completo</label>
                         <input
@@ -398,12 +220,12 @@
                         />
                     </div>
 
-                    <button class="auth-submit" type="submit">
+                    <button class="auth-submit" type="submit" disabled>
                         Crear mi cuenta
                     </button>
                 </form>
 
-                <form id="form-recovery" class="auth-form" hidden novalidate>
+                <form method="post" id="form-recovery" class="auth-form" hidden novalidate>
                     <p>
                         Escribe el correo asociado a tu cuenta y te enviaremos
                         instrucciones para restablecer tu contraseña.
@@ -421,7 +243,7 @@
                         />
                     </div>
 
-                    <button class="auth-submit" type="submit">
+                    <button class="auth-submit" type="submit" disabled>
                         Enviar instrucciones
                     </button>
 
@@ -449,14 +271,11 @@
                 </div>
 
                 <div class="footer-social">
-                    <a href="#" aria-label="Instagram">
+                    <a href="https://www.instagram.com/glamurosanc__/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                         <i class="fa-brands fa-instagram" aria-hidden="true"></i>
                     </a>
-                    <a href="#" aria-label="Facebook">
+                    <a href="https://www.facebook.com/share/1BTaDsKUDc/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                         <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
-                    </a>
-                    <a href="#" aria-label="WhatsApp">
-                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
                     </a>
                 </div>
 
@@ -468,6 +287,6 @@
         </footer>
 
         <script src="js/pwa.js"></script>
-        <script type="module" src="js/auth.js"></script>
+        <script type="module" src="js/page-loader.js" data-page="auth"></script>
     </body>
 </html>

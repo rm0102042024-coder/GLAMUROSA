@@ -6,7 +6,6 @@ import {
     signInWithEmailAndPassword,
     sendPasswordResetEmail,
     updateProfile,
-    signOut,
 } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
 
 const loginForm = document.getElementById("form-login");
@@ -36,6 +35,7 @@ function clearMessage() {
 }
 
 function showView(view) {
+    if (isSubmitting) return;
     clearMessage();
 
     const isLogin = view === "login";
@@ -49,6 +49,8 @@ function showView(view) {
     loginTab.hidden = isRecovery;
     registerTab.hidden = isRecovery;
 
+    loginTab.tabIndex = isLogin ? 0 : -1;
+    registerTab.tabIndex = isRegister ? 0 : -1;
     loginTab.setAttribute("aria-selected", String(isLogin));
     registerTab.setAttribute("aria-selected", String(isRegister));
 
@@ -91,7 +93,7 @@ function translateFirebaseError(error) {
             return "No se pudo conectar. Comprueba tu conexión a internet.";
 
         case "auth/operation-not-allowed":
-            return "Esta función no está habilitada en Firebase Authentication.";
+            return "El registro no está disponible en este momento. Contacta con el salón.";
 
         case "auth/user-disabled":
             return "Esta cuenta está deshabilitada. Contacta con el salón.";
@@ -154,9 +156,13 @@ recoveryButton.addEventListener("click", () => {
     const loginEmail = document.getElementById("login-email").value.trim();
     document.getElementById("recovery-email").value = loginEmail;
     showView("recovery");
+    if (!isSubmitting) document.getElementById("recovery-email").focus();
 });
 
-backToLoginButton.addEventListener("click", () => showView("login"));
+backToLoginButton.addEventListener("click", () => {
+    showView("login");
+    if (!isSubmitting) loginTab.focus();
+});
 
 loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -245,7 +251,7 @@ recoveryForm.addEventListener("submit", async (event) => {
 // No se lee ni se utiliza ningún rol guardado en el navegador.
 auth.authStateReady()
     .then(() => {
-        if (auth.currentUser) {
+        if (auth.currentUser && !isSubmitting) {
             goToReservations();
         }
     })
@@ -253,6 +259,14 @@ auth.authStateReady()
         console.error("No se pudo comprobar la sesión actual:", error);
     });
 
-// Deja disponible signOut para incorporarlo a la funcionalidad de cierre
-// de sesión cuando se implemente el botón correspondiente.
-export { signOut };
+
+[loginTab, registerTab].forEach((tab) => {
+    tab.addEventListener("keydown", (event) => {
+        if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key) || isSubmitting) return;
+        event.preventDefault();
+        const next = event.key === "Home" ? loginTab : event.key === "End" ? registerTab : tab === loginTab ? registerTab : loginTab;
+        next.click();
+        next.focus();
+    });
+});
+if (new URLSearchParams(location.search).get("view") === "register") showView("register");

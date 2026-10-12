@@ -1,4 +1,4 @@
-const CACHE_NAME = 'glamurosa-pwa-v4';
+const CACHE_NAME = 'glamurosa-pwa-v6';
 
 // Lista de archivos clave a guardar en caché para la PWA
 const ASSETS_TO_CACHE = [
@@ -11,7 +11,14 @@ const ASSETS_TO_CACHE = [
     './contacto.html',
     './reserva.html',
     './manifest.json',
+    './assets/icons/icon.svg',
+    './assets/icons/icon-192x192.png',
+    './assets/icons/icon-512x512.png',
     './css/style.css',
+    './css/auth.css',
+    './js/auth.js',
+    './js/firebase-config.js',
+    './js/page-loader.js',
     './css/contacto.css',
     './js/pwa.js',
     './js/reserva.js',
@@ -19,43 +26,41 @@ const ASSETS_TO_CACHE = [
     './assets/img/GLAMUROSA FONDO.jpeg',
 ];
 
-// Evento Install: Se ejecuta la primera vez que la PWA se carga
-self.addEventListener('install', (event) => {
-    event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
-            console.log('Abriendo caché local');
-            return cache.addAll(ASSETS_TO_CACHE);
-        }),
-    );
-    self.skipWaiting();
+// Activar solo cuando todos los recursos hayan terminado de guardarse.
+self.addEventListener('install', event => {
+    event.waitUntil((async () => {
+        const cache = await caches.open(CACHE_NAME);
+        await cache.addAll(ASSETS_TO_CACHE);
+        await self.skipWaiting();
+    })());
 });
 
-// Evento Activate: Limpia cachés de versiones anteriores
-self.addEventListener('activate', (event) => {
-    event.waitUntil(
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
-                cacheNames.map((cacheName) => {
-                    if (cacheName !== CACHE_NAME) {
-                        console.log('Borrando caché antigua:', cacheName);
-                        return caches.delete(cacheName);
-                    }
-                }),
-            );
-        }),
-    );
-    self.clients.claim();
+self.addEventListener('activate', event => {
+    event.waitUntil((async () => {
+        const names = await caches.keys();
+        await Promise.all(names.filter(name => name.startsWith('glamurosa-pwa-') && name !== CACHE_NAME)
+            .map(name => caches.delete(name)));
+        await self.clients.claim();
+    })());
 });
 
-// Evento Fetch: Intercepta las peticiones de red
-self.addEventListener('fetch', (event) => {
-    // Ignora las peticiones a Firebase u otros dominios externos
-    if (!event.request.url.startsWith('http')) return;
-
-    event.respondWith(
-        caches.match(event.request).then((response) => {
-            // Devuelve el archivo de la caché si existe o busca en la red
-            return response || fetch(event.request);
-        }),
-    );
+const assetURLs = new Set(ASSETS_TO_CACHE.map(path => new URL(path, self.location.href).href));
+self.addEventListener('fetch', event => {
+    const url = new URL(event.request.url);
+    if (event.request.method !== 'GET' || url.origin !== self.location.origin) return;
+    url.search = '';
+    if (!assetURLs.has(url.href)) return;
+    event.respondWith((async () => {
+        const cache = await caches.open(CACHE_NAME);
+        try {
+            const response = await fetch(event.request);
+            if (response.ok) await cache.put(url.href, response.clone());
+            if (response.status >= 500) return await cache.match(url.href) || response;
+            return response;
+        } catch (error) {
+            const cached = await cache.match(url.href);
+            if (cached) return cached;
+            throw error;
+        }
+    })());
 });

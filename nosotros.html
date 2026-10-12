@@ -7,6 +7,7 @@
         <title>Nosotros | GLAMUROSA Nails & Brows</title>
         <!-- Manifest de la PWA -->
         <link rel="manifest" href="manifest.json" />
+        <link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml" />
         <!-- Font Awesome -->
         <link
             rel="stylesheet"
@@ -16,6 +17,7 @@
         <link rel="stylesheet" href="css/style.css" />
     </head>
     <body>
+        <a class="skip-link" href="#contenido">Saltar al contenido</a>
         <!-- Encabezado y navegación -->
         <header>
             <div class="logo">
@@ -36,7 +38,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="nosotros.html">
+                        <a href="nosotros.html" aria-current="page">
                             <i class="fa-solid fa-heart" aria-hidden="true"></i>
                             Nosotros
                         </a>
@@ -77,14 +79,22 @@
                     <li>
                         <a href="login.html">
                             <i class="fa-solid fa-user" aria-hidden="true"></i>
-                            Iniciar Sesión / Admin
+                            Mi cuenta
                         </a>
                     </li>
                 </ul>
             </nav>
         </header>
 
-        <main></main>
+        <main id="contenido" class="content-page">
+            <h1>GLAMUROSA Nails &amp; Brows</h1>
+            <p>Un espacio dedicado al cuidado y diseño de uñas, cejas y pestañas.</p>
+            <div class="service-grid">
+                <section class="service-card"><h2>Nails Studio</h2><p>Conoce nuestros servicios de semipermanentes, Builder Gel, acrílicos y Pedicure Spa.</p><a href="servicios.html">Ver servicios</a></section>
+                <section class="service-card"><h2>Tu próxima visita</h2><p>Crea tu cuenta, elige un servicio y envía tu solicitud de cita. El salón confirmará tu reserva.</p><a href="login.html?view=register">Crear mi cuenta</a></section>
+            </div>
+            <a class="btn-primary" href="contacto.html">Ubicación y contacto</a>
+        </main>
 
         <!-- Pie de página -->
         <footer>
@@ -94,20 +104,17 @@
                     <span> GLAMUROSA Nails & Brows </span>
                 </div>
                 <div class="footer-social">
-                    <a href="#" aria-label="Instagram">
+                    <a href="https://www.instagram.com/glamurosanc__/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                         <i
                             class="fa-brands fa-instagram"
                             aria-hidden="true"
                         ></i>
                     </a>
-                    <a href="#" aria-label="Facebook">
+                    <a href="https://www.facebook.com/share/1BTaDsKUDc/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                         <i
                             class="fa-brands fa-facebook-f"
                             aria-hidden="true"
                         ></i>
-                    </a>
-                    <a href="#" aria-label="WhatsApp">
-                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
                     </a>
                 </div>
                 <p>

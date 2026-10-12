@@ -161,7 +161,7 @@ HERO
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--white);
+    background-color: var(--black);
     text-align: center;
     padding: 6rem 5%;
     border-bottom: 1px solid var(--gray-light);
@@ -169,7 +169,7 @@ HERO
     overflow: hidden;
     background-image:
         linear-gradient(rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.48)),
-        url('https://unsplash.com/photos/woman-in-black-tank-top-nZU2w8I0JI8?utm_source=chatgpt.com');
+        url('../assets/img/GLAMUROSA FONDO.jpeg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -341,7 +341,7 @@ FORMULARIO DE RESERVAS
     border: 1px solid var(--gray-light);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
 }
-.booking-container h2 {
+.booking-container h1 {
     text-align: center;
     font-family: var(--font-heading);
     color: var(--black);
@@ -552,7 +552,7 @@ RESPONSIVE — MÓVIL
         margin: 2rem 1rem;
         padding: 2rem 1.2rem;
     }
-    .booking-container h2 {
+    .booking-container h1 {
         font-size: 2.4rem;
     }
 }
@@ -576,3 +576,33 @@ MÓVILES PEQUEÑOS
         width: 100%;
     }
 }
+
+/* Cuenta y reservas */
+[hidden] { display: none !important; }
+header { gap: 1.5rem; }
+nav ul { flex-wrap: wrap; justify-content: center; }
+.logo { flex-shrink: 0; }
+.booking-container { width: calc(100% - 2rem); }
+#booking-fields { border: 0; min-width: 0; display: flex; flex-direction: column; gap: 1.5rem; }
+.booking-session { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; margin-bottom: 24px; font-size: .85rem; overflow-wrap: anywhere; }
+.booking-session button { background: transparent; border: 0; text-decoration: underline; font: inherit; cursor: pointer; }
+button:disabled { opacity: .6; cursor: wait; }
+.form-message[data-type="error"] { color: #922525; }
+.form-message[data-type="success"] { color: #205c3b; }
+@media (max-width: 768px) { header { position: static; } }
+
+.skip-link { position: fixed; top: 8px; left: 8px; z-index: 2000; padding: 12px 18px; background: #fff; color: #111; transform: translateY(-160%); }
+.skip-link:focus { transform: translateY(0); }
+a:focus-visible, button:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+nav a[aria-current="page"] { font-weight: 600; text-decoration: underline; text-underline-offset: 5px; }
+#horarios { scroll-margin-top: 160px; }
+.content-page { width: min(100% - 2rem, 1000px); margin: 3rem auto; }
+.content-page h1 { font: 500 clamp(2.4rem, 6vw, 4rem)/1.1 var(--font-heading); margin-bottom: 1.5rem; }
+.content-page > p { color: var(--text-light); margin-bottom: 1.5rem; }
+.service-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+.service-card { padding: 2rem; border: 1px solid var(--border-color); }
+.service-card h2 { font: 500 2rem var(--font-heading); margin-bottom: 1rem; }
+.service-card li { padding: .6rem 0; border-bottom: 1px solid var(--gray-light); }
+.service-card a { display: inline-block; margin-top: 1rem; text-decoration: underline; }
+@media (max-width: 600px) { .service-grid { grid-template-columns: 1fr; } .service-card { padding: 1.5rem; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
