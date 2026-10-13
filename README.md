@@ -4,9 +4,9 @@ Sitio estático con cuentas mediante Firebase Authentication y solicitudes de ci
 
 ## Flujo de clientes
 
-`login.html` permite iniciar sesión, crear una cuenta y solicitar recuperación de contraseña. Al autenticarse, el cliente pasa a `reserva.html`. Cada solicitud guarda el UID y correo de la cuenta y permanece **pendiente** hasta que el salón la confirme. El formulario no representa disponibilidad en tiempo real ni impide que distintos clientes soliciten el mismo horario.
+`login.html` permite iniciar sesión, crear una cuenta y solicitar recuperación de contraseña. Al autenticarse, el cliente pasa a `reserva.html` y la cuenta con el permiso `admin: true` pasa a `admin.html`. La misma comprobación se realiza al abrir Mi cuenta con una sesión activa. El menú muestra Administración únicamente para cuentas administradoras y lo oculta al cerrar sesión o si falla la verificación. Cada solicitud guarda el UID y correo de la cuenta y permanece **pendiente** hasta que el salón la confirme. El formulario no representa disponibilidad en tiempo real ni impide que distintos clientes soliciten el mismo horario.
 
-Los módulos usan la misma versión de Firebase (13.0.0). Se necesita conexión para autenticar y enviar solicitudes. La caché PWA se actualizó a v6; consulta primero la red para obtener cambios y utiliza los recursos guardados cuando no hay conexión.
+Los módulos usan la misma versión de Firebase (13.0.0). Se necesita conexión para autenticar y enviar solicitudes. La caché PWA se actualizó a v7; consulta primero la red para obtener cambios y utiliza los recursos guardados cuando no hay conexión.
 
 ## Configuración del servicio
 
@@ -17,7 +17,7 @@ Antes de validar en producción:
 - Publicar las reglas revisadas en el proyecto `glamurosa-3a5ad` mediante Firebase Console o la CLI existente.
 - Probar una cuenta y una solicitud de prueba autorizadas contra el servicio real.
 
-Las reglas se prepararon localmente; no se desplegaron ni se validaron con el emulador. Las fechas futuras y el cierre de domingo se validan en el formulario; el servidor valida identidad, campos permitidos y estado inicial, pero no calcula disponibilidad ni horarios pasados. `admin.html` y `js/admin.js` no implementan todavía un panel de gestión.
+Las reglas se prepararon localmente; no se desplegaron ni se validaron con el emulador. Las fechas futuras y el cierre de domingo se validan en el formulario; el servidor valida identidad, campos permitidos y estado inicial, pero no calcula disponibilidad ni horarios pasados. `admin.html` comprueba la sesión y exige el custom claim de Firebase `admin: true`, asignado desde un entorno de servidor de confianza. No se confía en roles del almacenamiento del navegador. Incluye estados de invitado, acceso denegado, error de conexión y cierre de sesión; las secciones de reservas, servicios y clientes siguen pendientes de implementación. Esta comprobación controla la interfaz, no sustituye las reglas de Firestore: no se han ampliado los permisos de datos ni asignado administradores reales.
 
 ## Verificación de navegador
 

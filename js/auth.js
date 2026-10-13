@@ -6,6 +6,7 @@ import {
     signInWithEmailAndPassword,
     sendPasswordResetEmail,
     updateProfile,
+    getIdTokenResult,
 } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
 
 const loginForm = document.getElementById("form-login");
@@ -144,9 +145,17 @@ async function runFormAction(form, busyText, action) {
     }
 }
 
-function goToReservations() {
-    // Todos los usuarios autenticados van a la página de reservas.
-    window.location.replace("reserva.html");
+async function goToAccount() {
+    const user = auth.currentUser;
+    if (!user) return;
+    try {
+        const { claims } = await getIdTokenResult(user);
+        if (auth.currentUser !== user) return;
+        window.location.replace(claims.admin === true ? "admin.html" : "reserva.html");
+    } catch (error) {
+        console.error("No se pudieron comprobar los permisos:", error);
+        showMessage("No se pudo verificar el acceso. Comprueba tu conexión y vuelve a iniciar sesión.", "error");
+    }
 }
 
 loginTab.addEventListener("click", () => showView("login"));
@@ -175,7 +184,7 @@ loginForm.addEventListener("submit", async (event) => {
 
     await runFormAction(loginForm, "Iniciando sesión...", async () => {
         await signInWithEmailAndPassword(auth, email, password);
-        goToReservations();
+        await goToAccount();
     });
 });
 
@@ -219,7 +228,7 @@ registerForm.addEventListener("submit", async (event) => {
             console.error("No se pudo guardar el nombre del perfil:", error);
         }
 
-        goToReservations();
+        await goToAccount();
     });
 });
 
@@ -250,9 +259,9 @@ recoveryForm.addEventListener("submit", async (event) => {
 // Si una sesión ya está activa, no es necesario iniciar sesión de nuevo.
 // No se lee ni se utiliza ningún rol guardado en el navegador.
 auth.authStateReady()
-    .then(() => {
+    .then(async () => {
         if (auth.currentUser && !isSubmitting) {
-            goToReservations();
+            await goToAccount();
         }
     })
     .catch((error) => {

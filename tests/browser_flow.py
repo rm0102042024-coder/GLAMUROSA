@@ -11,13 +11,17 @@ os.chdir(ROOT)
 MOCK='''
 export const auth={currentUser:JSON.parse(sessionStorage.getItem('user')||'null'),authStateReady:async()=>{}};
 export const db={};
+export async function getIdTokenResult(user){if(user.fail)throw Error('token unavailable');return {claims:{admin:user.admin}};}
+export function onIdTokenChanged(a,cb){return onAuthStateChanged(a,cb);}
+
 export const initializeApp=()=>({}); export const getAuth=()=>auth; export const getFirestore=()=>db;
 const save=()=>sessionStorage.setItem('user',JSON.stringify(auth.currentUser));
-export async function createUserWithEmailAndPassword(a,email,p){ await new Promise(r=>setTimeout(r,100)); a.currentUser={uid:'test-user',email};save();return {user:a.currentUser}; }
+export async function createUserWithEmailAndPassword(a,email,p){ await new Promise(r=>setTimeout(r,100)); a.currentUser={uid:'test-user',email,admin:email==='admin@example.com'};save();return {user:a.currentUser}; }
 export async function updateProfile(user,data){Object.assign(user,data);save();}
 export async function signInWithEmailAndPassword(a,email,p){if(p==='badpass')throw {code:'auth/invalid-credential'};return createUserWithEmailAndPassword(a,email,p);}
 export async function sendPasswordResetEmail(){}
-export function onAuthStateChanged(a,cb){window.authCallback=cb;setTimeout(()=>cb(a.currentUser),0);}
+const callbacks=[];
+export function onAuthStateChanged(a,cb){callbacks.push(cb);window.authCallback=u=>callbacks.forEach(fn=>fn(u));setTimeout(()=>cb(a.currentUser),0);}
 export async function signOut(a){a.currentUser=null;save();window.authCallback?.(null);}
 export const collection=()=>({}); export const serverTimestamp=()=> 'server-time';
 export async function addDoc(c,data){window.savedData=data;window.writes=(window.writes||0)+1;await new Promise(r=>setTimeout(r,200));if(window.failWrite)throw Error('offline');return {id:'test-booking'};}
@@ -77,4 +81,27 @@ try:
  driver.execute_script("document.getElementById('fecha').value=arguments[0];window.failWrite=true", (date.today()+timedelta(days=(6-date.today().weekday())%7+8)).isoformat());el('booking-form').submit();message('No se pudo');assert el('telefono').get_attribute('value')=='7000 0000';print('PASS failed write preserves form')
  driver.execute_script("window.failWrite=false;window.writes=0;document.getElementById('booking-form').dispatchEvent(new Event('submit',{cancelable:true}));document.getElementById('booking-form').dispatchEvent(new Event('submit',{cancelable:true}));");message('pendiente');assert driver.execute_script('return window.writes')==1;data=driver.execute_script('return window.savedData');assert data['uid']=='test-user' and data['estado']=='pendiente' and data['hora']=='08:00';print('PASS owned pending booking and duplicate submission guard')
  el('logout').click();ready('login.html');print('PASS logout')
+ fill('login-email','admin@example.com');fill('login-password','abcdef');el('form-login').submit();ready('admin.html')
+ wait.until(lambda d:el('admin-dashboard').is_displayed())
+ for page in ['index','nosotros','servicios','contacto','reserva','admin']:
+  driver.get(f'http://127.0.0.1:8765/{page}.html')
+  wait.until(lambda d:d.find_element(By.CSS_SELECTOR,'nav a[href="admin.html"]').is_displayed())
+  for width in [375,768,1440]:
+   driver.set_window_size(width,1000)
+   assert driver.execute_script('return document.documentElement.scrollWidth <= innerWidth'),(page,width)
+ driver.get('http://127.0.0.1:8765/login.html');ready('admin.html')
+ wait.until(lambda d:el('admin-dashboard').is_displayed())
+ el('admin-logout').click()
+ wait.until(lambda d:not el('admin-dashboard').is_displayed())
+ wait.until(lambda d:not d.find_element(By.CSS_SELECTOR,'nav a[href="admin.html"]').is_displayed())
+ print('PASS admin login, existing session, navigation, responsive widths and logout')
+ for user in [{'uid':'client'},{'uid':'string','admin':'true'},{'uid':'failed','fail':True}]:
+  driver.execute_script("sessionStorage.setItem('user',JSON.stringify(arguments[0]))",user)
+  driver.get('http://127.0.0.1:8765/login.html')
+  if user.get('fail'):
+   wait.until(lambda d:'No se pudo verificar' in el('auth-message').text)
+  else:ready('reserva.html')
+  assert not driver.find_element(By.CSS_SELECTOR,'nav a[href="admin.html"]').is_displayed()
+ print('PASS client routing, strict claim and verification failure')
+
 finally:driver.quit();server.shutdown()

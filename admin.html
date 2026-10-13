@@ -120,6 +120,8 @@
                 </a>
             </section>
 
+            <noscript><p>Activa JavaScript para verificar tus permisos y acceder al panel.</p></noscript>
+
             <!-- Estado de autenticación y autorización -->
             <section
                 id="admin-access-status"
@@ -136,6 +138,11 @@
                     </p>
                 </div>
             </section>
+
+            <p id="admin-access-actions" class="admin-access-actions" hidden>
+                <a href="login.html">Ir a mi cuenta</a> · <a href="admin.html">Volver a comprobar el acceso</a>
+            </p>
+            <button id="admin-logout" class="admin-logout" type="button" hidden>Cerrar sesión</button>
 
             <!-- El contenido administrativo permanecerá oculto
                  hasta que JavaScript compruebe el permiso. -->
@@ -246,8 +253,7 @@
 
                     <div id="reservas-container" class="admin-data-container">
                         <p class="admin-placeholder">
-                            Las reservas se mostrarán cuando conectemos
-                            esta sección con Firestore.
+                            La consulta de reservas aún no está disponible en este panel.
                         </p>
                     </div>
                 </section>
@@ -337,8 +343,9 @@
 
         <!-- PWA -->
         <script src="js/pwa.js"></script>
+        <script type="module" src="js/account-nav.js"></script>
 
-        <!-- La lógica de autorización se conectará en la siguiente etapa. -->
+        <!-- Comprobación de sesión y permisos administrativos. -->
         <script type="module" src="js/admin.js"></script>
     </body>
 </html>
