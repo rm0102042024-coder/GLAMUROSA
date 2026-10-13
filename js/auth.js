@@ -1,4 +1,5 @@
 
+
 import { auth } from "./firebase-config.js";
 
 import {
@@ -24,6 +25,9 @@ const recoveryButton = document.getElementById("show-recovery");
 const backToLoginButton = document.getElementById("back-to-login");
 
 let isSubmitting = false;
+let isCheckingSession = false;
+
+// ---------- Mensajes y vistas ----------
 
 function showMessage(message, type = "info") {
     messageBox.textContent = message;
@@ -36,7 +40,6 @@ function clearMessage() {
 }
 
 function showView(view) {
-    if (isSubmitting) return;
     clearMessage();
 
     const isLogin = view === "login";
@@ -50,8 +53,6 @@ function showView(view) {
     loginTab.hidden = isRecovery;
     registerTab.hidden = isRecovery;
 
-    loginTab.tabIndex = isLogin ? 0 : -1;
-    registerTab.tabIndex = isRegister ? 0 : -1;
     loginTab.setAttribute("aria-selected", String(isLogin));
     registerTab.setAttribute("aria-selected", String(isRegister));
 
@@ -67,6 +68,8 @@ function showView(view) {
           ? "Regístrate para comenzar a reservar."
           : "Te ayudaremos a recuperar el acceso a tu cuenta.";
 }
+
+// ---------- Traducción de errores ----------
 
 function translateFirebaseError(error) {
     switch (error?.code) {
@@ -94,7 +97,7 @@ function translateFirebaseError(error) {
             return "No se pudo conectar. Comprueba tu conexión a internet.";
 
         case "auth/operation-not-allowed":
-            return "El registro no está disponible en este momento. Contacta con el salón.";
+            return "Esta función no está habilitada en Firebase Authentication.";
 
         case "auth/user-disabled":
             return "Esta cuenta está deshabilitada. Contacta con el salón.";
@@ -108,9 +111,11 @@ function translateFirebaseError(error) {
 
         default:
             console.error("Error de Firebase Authentication:", error);
-            return "Ocurrió un error inesperado. Inténtalo de nuevo.";
+            return "Ocurrió un error. Comprueba tu conexión e inténtalo de nuevo.";
     }
 }
+
+// ---------- Estado de carga ----------
 
 function setFormBusy(form, busy, busyText = "Procesando...") {
     const submitButton = form.querySelector('button[type="submit"]');
@@ -118,12 +123,16 @@ function setFormBusy(form, busy, busyText = "Procesando...") {
     if (!submitButton) return;
 
     if (busy) {
-        submitButton.dataset.originalText = submitButton.textContent;
+        if (!submitButton.disabled) {
+            submitButton.dataset.originalText = submitButton.textContent;
+        }
+
         submitButton.textContent = busyText;
         submitButton.disabled = true;
     } else {
         submitButton.textContent =
             submitButton.dataset.originalText || submitButton.textContent;
+
         submitButton.disabled = false;
         delete submitButton.dataset.originalText;
     }
@@ -145,33 +154,40 @@ async function runFormAction(form, busyText, action) {
     }
 }
 
-async function goToAccount() {
-    const user = auth.currentUser;
-    if (!user) return;
-    try {
-        const { claims } = await getIdTokenResult(user);
-        if (auth.currentUser !== user) return;
-        window.location.replace(claims.admin === true ? "admin.html" : "reserva.html");
-    } catch (error) {
-        console.error("No se pudieron comprobar los permisos:", error);
-        showMessage("No se pudo verificar el acceso. Comprueba tu conexión y vuelve a iniciar sesión.", "error");
+// ---------- Redirección basada en Firebase ----------
+
+async function redirectByVerifiedClaim(user) {
+    if (!user) {
+        throw new Error("No hay un usuario autenticado.");
+    }
+
+    // Fuerza la actualización del token para comprobar los claims actuales.
+    // El permiso admin debe haber sido asignado mediante Firebase Admin SDK
+    // desde un entorno de confianza.
+    const tokenResult = await getIdTokenResult(user, true);
+    const isAdmin = tokenResult.claims.admin === true;
+
+    if (isAdmin) {
+        window.location.replace("admin.html");
+    } else {
+        window.location.replace("reserva.html");
     }
 }
+
+// ---------- Navegación entre formularios ----------
 
 loginTab.addEventListener("click", () => showView("login"));
 registerTab.addEventListener("click", () => showView("register"));
 
 recoveryButton.addEventListener("click", () => {
-    const loginEmail = document.getElementById("login-email").value.trim();
-    document.getElementById("recovery-email").value = loginEmail;
+    const email = document.getElementById("login-email").value.trim();
+    document.getElementById("recovery-email").value = email;
     showView("recovery");
-    if (!isSubmitting) document.getElementById("recovery-email").focus();
 });
 
-backToLoginButton.addEventListener("click", () => {
-    showView("login");
-    if (!isSubmitting) loginTab.focus();
-});
+backToLoginButton.addEventListener("click", () => showView("login"));
+
+// ---------- Inicio de sesión ----------
 
 loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -182,11 +198,18 @@ loginForm.addEventListener("submit", async (event) => {
     const email = document.getElementById("login-email").value.trim();
     const password = document.getElementById("login-password").value;
 
-    await runFormAction(loginForm, "Iniciando sesión...", async () => {
-        await signInWithEmailAndPassword(auth, email, password);
-        await goToAccount();
+    await runFormAction(loginForm, "Verificando cuenta...", async () => {
+        const credential = await signInWithEmailAndPassword(
+            auth,
+            email,
+            password,
+        );
+
+        await redirectByVerifiedClaim(credential.user);
     });
 });
+
+// ---------- Registro ----------
 
 registerForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -202,7 +225,7 @@ registerForm.addEventListener("submit", async (event) => {
     ).value;
 
     if (name.length < 2) {
-        showMessage("Escribe tu nombre completo.", "error");
+        showMessage("Escribe un nombre de al menos 2 caracteres.", "error");
         return;
     }
 
@@ -223,14 +246,16 @@ registerForm.addEventListener("submit", async (event) => {
                 displayName: name,
             });
         } catch (error) {
-            // La cuenta ya fue creada. No se oculta el error de perfil
-            // en consola, pero se permite continuar con la sesión.
+            // La cuenta ya existe aunque falle la actualización del perfil.
             console.error("No se pudo guardar el nombre del perfil:", error);
         }
 
-        await goToAccount();
+        // Las cuentas nuevas no reciben permisos de administrador.
+        await redirectByVerifiedClaim(credential.user);
     });
 });
+
+// ---------- Recuperación de contraseña ----------
 
 recoveryForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -240,42 +265,43 @@ recoveryForm.addEventListener("submit", async (event) => {
 
     const email = document.getElementById("recovery-email").value.trim();
 
-    await runFormAction(
-        recoveryForm,
-        "Enviando...",
-        async () => {
-            await sendPasswordResetEmail(auth, email);
+    await runFormAction(recoveryForm, "Enviando...", async () => {
+        await sendPasswordResetEmail(auth, email);
 
-            showMessage(
-                "Si existe una cuenta asociada a ese correo, recibirás instrucciones para restablecer la contraseña. Revisa también la carpeta de spam.",
-                "success",
-            );
+        showMessage(
+            "Si existe una cuenta asociada a ese correo, recibirás instrucciones para restablecer la contraseña. Revisa también la carpeta de spam.",
+            "success",
+        );
 
-            recoveryForm.reset();
-        },
-    );
+        recoveryForm.reset();
+    });
 });
 
-// Si una sesión ya está activa, no es necesario iniciar sesión de nuevo.
-// No se lee ni se utiliza ningún rol guardado en el navegador.
-auth.authStateReady()
-    .then(async () => {
-        if (auth.currentUser && !isSubmitting) {
-            await goToAccount();
+// ---------- Comprobación de sesión existente ----------
+
+async function checkExistingSession() {
+    if (isCheckingSession) return;
+
+    isCheckingSession = true;
+
+    try {
+        // Espera a que Firebase termine de restaurar la sesión.
+        await auth.authStateReady();
+
+        if (auth.currentUser) {
+            await redirectByVerifiedClaim(auth.currentUser);
         }
-    })
-    .catch((error) => {
-        console.error("No se pudo comprobar la sesión actual:", error);
-    });
+    } catch (error) {
+        console.error("No se pudo verificar la sesión:", error);
 
+        showMessage(
+            "No pudimos verificar tu sesión con Firebase. Comprueba tu conexión e inténtalo de nuevo.",
+            "error",
+        );
+    } finally {
+        isCheckingSession = false;
+    }
+}
 
-[loginTab, registerTab].forEach((tab) => {
-    tab.addEventListener("keydown", (event) => {
-        if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key) || isSubmitting) return;
-        event.preventDefault();
-        const next = event.key === "Home" ? loginTab : event.key === "End" ? registerTab : tab === loginTab ? registerTab : loginTab;
-        next.click();
-        next.focus();
-    });
-});
-if (new URLSearchParams(location.search).get("view") === "register") showView("register");
+checkExistingSession();
+
