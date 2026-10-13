@@ -111,24 +111,48 @@ service cloud.firestore {
 
 ---
 
-### 5. Asignar Permisos de Administrador (Opcional, para el panel `admin.html`)
-El panel de administración [`admin.html`](./admin.html) verifica la sesión de Firebase y exige un **custom claim** (`admin: true`). Esto previene accesos no autorizados:
-* No se puede activar desde el almacenamiento local del navegador (localStorage) por motivos de seguridad.
-* Se asigna utilizando el **Firebase Admin SDK** (Node.js o Python) ejecutado en un entorno seguro o Cloud Shell.
+### 5. Cómo Registrar y Asignar Administradores
 
-Ejemplo en Node.js para asignar el rol de administrador a un correo específico:
-```javascript
-const admin = require('firebase-admin');
-admin.initializeApp();
+> [!NOTE]
+> **¿Por qué no hay un registro directo de administradores en la web?**
+> Por motivos estrictos de ciberseguridad, **ninguna persona puede registrarse como administrador desde el formulario web público** (`login.html`). Si existiera esa opción, cualquier visitante o cliente podría darse permisos de administrador y acceder a las citas y datos privados de todos los clientes del salón.
 
-async function makeAdmin(email) {
-  const user = await admin.auth().getUserByEmail(email);
-  await admin.auth().setCustomUserClaims(user.uid, { admin: true });
-  console.log(`Permiso de administrador asignado a ${email}`);
-}
+Para dar de alta a una administradora o administrador del salón:
 
-makeAdmin('admin@glamurosa.com');
+#### Paso 5.1: Crear la cuenta del usuario
+La persona debe crear su cuenta normal en la web desde `login.html` (o tú puedes crear su cuenta directamente en **Firebase Console > Authentication > pestaña Users > Agregar usuario**).
+
+#### Paso 5.2: Descargar la clave de servicio de Firebase (Solo se hace una vez)
+1. En [Firebase Console](https://console.firebase.google.com/), entra a tu proyecto **`glamurosa-3a5ad`**.
+2. Haz clic en el ícono de engranaje ⚙️ (**Configuración del proyecto**).
+3. Ve a la pestaña **Cuentas de servicio (Service accounts)**.
+4. Haz clic en el botón **Generar nueva clave privada** y confirma.
+5. Se descargará un archivo JSON. Renómbralo o guárdalo como:
+   ```
+   serviceAccountKey.json
+   ```
+   en la raíz de este proyecto. *(Este archivo contiene claves privadas y ya está protegido en `.gitignore` para que **nunca** se suba a GitHub).*
+
+#### Paso 5.3: Ejecutar el script `set-admin.js`
+En tu terminal, ejecuta el script pasando el correo del usuario que será administrador:
+
+```bash
+node set-admin.js correo_de_la_persona@ejemplo.com
 ```
+
+El script verificará el usuario en Firebase y le asignará el permiso:
+```text
+✅ Permiso de administrador ASIGNADO exitosamente a: correo_de_la_persona@ejemplo.com (UID: ...)
+📌 Cuando esta persona inicie sesión, tendrá acceso al panel de administración (admin.html).
+```
+
+#### Paso 5.4: Acceso al Panel de Administración
+* Cuando la administradora inicie sesión en `login.html`, el sistema detectará el permiso `admin: true` y la redirigirá automáticamente a **`admin.html`**.
+* La barra de navegación mostrará la pestaña **Administración**.
+* Si deseas **retirar** el permiso de administrador a un usuario:
+  ```bash
+  node set-admin.js correo_de_la_persona@ejemplo.com --remove
+  ```
 
 ---
 

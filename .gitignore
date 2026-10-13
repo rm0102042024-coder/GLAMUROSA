@@ -1,0 +1,13 @@
+# Claves de cuentas de servicio y credenciales de Firebase
+serviceAccountKey.json
+*.pem
+credentials.json
+
+# Variables de entorno
+.env
+.env.*
+!.env.example
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
