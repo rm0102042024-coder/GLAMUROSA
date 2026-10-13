@@ -16,8 +16,9 @@ const KEY_PATH = path.join(__dirname, 'serviceAccountKey.json');
 function showHelp() {
     console.log(`
 Uso:
-  node set-admin.js <correo>            Asigna permisos de administrador a una cuenta
-  node set-admin.js <correo> --remove   Retira los permisos de administrador
+  node set-admin.js <correo>                     Asigna permisos de administrador a un usuario existente
+  node set-admin.js <correo> --password <clave>  Crea la cuenta (si no existe) y le asigna rol admin
+  node set-admin.js <correo> --remove            Retira los permisos de administrador
 
 Requisitos:
   1. Ve a Firebase Console (https://console.firebase.google.com/)
@@ -33,6 +34,8 @@ async function main() {
     const email = args.find(arg => !arg.startsWith('--'));
     const removeRole = args.includes('--remove');
     const showHelpFlag = args.includes('--help') || args.includes('-h');
+    const passIndex = args.indexOf('--password');
+    const password = passIndex !== -1 ? args[passIndex + 1] : null;
 
     if (showHelpFlag || !email) {
         showHelp();
@@ -60,7 +63,22 @@ async function main() {
         }
 
         console.log(`Buscando usuario con correo: ${email}...`);
-        const user = await admin.auth().getUserByEmail(email);
+        let user;
+        try {
+            user = await admin.auth().getUserByEmail(email);
+        } catch (err) {
+            if (err.code === 'auth/user-not-found' && password) {
+                console.log(`Usuario no encontrado. Creando nueva cuenta para: ${email}...`);
+                user = await admin.auth().createUser({
+                    email,
+                    password,
+                    displayName: 'Administrador Glamurosa',
+                });
+                console.log(`Cuenta creada exitosamente (UID: ${user.uid}).`);
+            } else {
+                throw err;
+            }
+        }
 
         const currentClaims = user.customClaims || {};
         const newClaims = { ...currentClaims, admin: !removeRole };

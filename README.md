@@ -111,47 +111,68 @@ service cloud.firestore {
 
 ---
 
-### 5. Cómo Registrar y Asignar Administradores
+### 5. Cómo Crear y Asignar Administradores
 
 > [!NOTE]
-> **¿Por qué no hay un registro directo de administradores en la web?**
-> Por motivos estrictos de ciberseguridad, **ninguna persona puede registrarse como administrador desde el formulario web público** (`login.html`). Si existiera esa opción, cualquier visitante o cliente podría darse permisos de administrador y acceder a las citas y datos privados de todos los clientes del salón.
+> **¿Por qué no hay un registro directo de administradores en la web pública?**
+> Por motivos estrictos de ciberseguridad, **ninguna persona puede registrarse como administrador directamente desde el formulario web público** (`login.html`). Si existiera esa opción, cualquier visitante o cliente podría darse permisos administrativos y acceder a las citas, teléfonos y datos privados de todos los clientes del salón.
 
-Para dar de alta a una administradora o administrador del salón:
+Para dar de alta a una administradora o administrador, el sistema incluye el script [`set-admin.js`](./set-admin.js), que se conecta a Firebase con permisos seguros de servidor.
 
-#### Paso 5.1: Crear la cuenta del usuario
-La persona debe crear su cuenta normal en la web desde `login.html` (o tú puedes crear su cuenta directamente en **Firebase Console > Authentication > pestaña Users > Agregar usuario**).
+---
 
-#### Paso 5.2: Descargar la clave de servicio de Firebase (Solo se hace una vez)
+#### Paso 5.1: Descargar la clave de servicio de Firebase (Solo se hace una vez)
+Para que el script tenga autorización de crear administradores en Firebase:
 1. En [Firebase Console](https://console.firebase.google.com/), entra a tu proyecto **`glamurosa-3a5ad`**.
-2. Haz clic en el ícono de engranaje ⚙️ (**Configuración del proyecto**).
+2. Haz clic en el ícono de engranaje ⚙️ (**Configuración del proyecto**) en la esquina superior izquierda.
 3. Ve a la pestaña **Cuentas de servicio (Service accounts)**.
-4. Haz clic en el botón **Generar nueva clave privada** y confirma.
-5. Se descargará un archivo JSON. Renómbralo o guárdalo como:
+4. Haz clic en el botón azul **Generar nueva clave privada (Generate new private key)** y confirma.
+5. Se descargará un archivo `.json`. Guárdalo en la raíz de esta carpeta con el nombre:
    ```
    serviceAccountKey.json
    ```
-   en la raíz de este proyecto. *(Este archivo contiene claves privadas y ya está protegido en `.gitignore` para que **nunca** se suba a GitHub).*
+   *(Este archivo contiene credenciales privadas del proyecto y está protegido en [.gitignore](./.gitignore) para que **nunca** se suba a GitHub).*
 
-#### Paso 5.3: Ejecutar el script `set-admin.js`
-En tu terminal, ejecuta el script pasando el correo del usuario que será administrador:
+---
 
+#### Paso 5.2: Métodos para crear o nombrar Administradores
+
+Elige la opción que prefieras:
+
+##### Opción A: Crear la cuenta completa y nombrarla administrador en un solo comando (Terminal)
+Si la persona aún no tiene cuenta, puedes crear la cuenta y asignarle los permisos en un único paso:
 ```bash
-node set-admin.js correo_de_la_persona@ejemplo.com
+node set-admin.js correo_admin@ejemplo.com --password "TuContraseñaSegura123"
 ```
-
-El script verificará el usuario en Firebase y le asignará el permiso:
+*Salida esperada:*
 ```text
-✅ Permiso de administrador ASIGNADO exitosamente a: correo_de_la_persona@ejemplo.com (UID: ...)
+Buscando usuario con correo: correo_admin@ejemplo.com...
+Usuario no encontrado. Creando nueva cuenta para: correo_admin@ejemplo.com...
+Cuenta creada exitosamente (UID: ...).
+✅ Permiso de administrador ASIGNADO exitosamente a: correo_admin@ejemplo.com (UID: ...)
 📌 Cuando esta persona inicie sesión, tendrá acceso al panel de administración (admin.html).
 ```
 
-#### Paso 5.4: Acceso al Panel de Administración
-* Cuando la administradora inicie sesión en `login.html`, el sistema detectará el permiso `admin: true` y la redirigirá automáticamente a **`admin.html`**.
-* La barra de navegación mostrará la pestaña **Administración**.
-* Si deseas **retirar** el permiso de administrador a un usuario:
+##### Opción B: Asignar permisos a una cuenta que ya se registró en la web
+Si la administradora ya creó su cuenta previamente desde `login.html`:
+```bash
+node set-admin.js correo_admin@ejemplo.com
+```
+
+##### Opción C: Crear el administrador mediante el Asistente AI
+Si prefieres no usar la terminal:
+1. Coloca el archivo `serviceAccountKey.json` en la carpeta del proyecto.
+2. Pídele al asistente: *"Crea el administrador con correo admin@glamurosa.com y contraseña X"*.
+3. El asistente ejecutará el proceso de creación y confirmará el acceso.
+
+---
+
+#### Paso 5.3: Acceso y Verificación
+* Al iniciar sesión con las credenciales de la cuenta administradora en `login.html`, el sistema detectará el permiso `admin: true` y la dirigirá automáticamente a **`admin.html`**.
+* La barra superior de navegación mostrará el enlace **Administración**.
+* Para **retirar** el permiso de administrador a un usuario en cualquier momento:
   ```bash
-  node set-admin.js correo_de_la_persona@ejemplo.com --remove
+  node set-admin.js correo_admin@ejemplo.com --remove
   ```
 
 ---
