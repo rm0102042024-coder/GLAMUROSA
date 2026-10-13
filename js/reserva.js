@@ -75,7 +75,11 @@ form.addEventListener('submit', async event => {
         showMessage('¡Solicitud enviada! Tu cita está pendiente de confirmación por el salón.', 'success');
     } catch (error) {
         console.error('Error al solicitar la cita:', error);
-        showMessage('No se pudo enviar tu solicitud. Comprueba tu conexión e inténtalo de nuevo.', 'error');
+        if (error && error.code === 'permission-denied') {
+            showMessage('No se pudo enviar tu solicitud: permisos insuficientes en Firestore. Verifica que las reglas de seguridad estén publicadas en Firebase.', 'error');
+        } else {
+            showMessage('No se pudo enviar tu solicitud. Comprueba tu conexión e inténtalo de nuevo.', 'error');
+        }
     } finally {
         submitting = false;
         fields.disabled = !auth.currentUser;

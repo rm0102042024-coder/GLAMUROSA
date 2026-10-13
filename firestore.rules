@@ -1,23 +1,87 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: reservas
+    // Document ID: {reservaId} (auto-generated ID)
+    // Fields:
+    //   - uid: string (required, immutable) - ID of the client creating the reservation
+    //   - email: string (required, immutable) - Email of the client creating the reservation
+    //   - nombre: string (required) - Client full name (2 to 100 characters)
+    //   - telefono: string (required) - Contact phone number (8 to 20 characters)
+    //   - servicio: string (required) - Selected salon service from allowed list
+    //   - fecha: string (required) - Appointment date (YYYY-MM-DD format)
+    //   - hora: string (required) - Appointment time slot ('08:00', '10:30', '14:00')
+    //   - notas: string (required) - Client notes or details (max 1000 characters)
+    //   - estado: string (required) - Status: initial 'pendiente', updated by admin
+    //   - fechaCreacion: timestamp (required, immutable) - Creation timestamp (request.time)
+    //   - notasAdmin: string (optional) - Internal notes from salon administration (max 1000 characters)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated()
+        && ('admin' in request.auth.token)
+        && request.auth.token.admin == true;
+    }
+
+    function isValidReservaData(data) {
+      return data.nombre is string
+        && data.nombre.size() >= 2 && data.nombre.size() <= 100
+        && data.telefono is string
+        && data.telefono.size() >= 8 && data.telefono.size() <= 20
+        && data.servicio in ['Semipermanentes', 'Builder Gel', 'Acrílicos', 'Pedicure Spa', 'Diseño y Depilación de Cejas', 'Laminado de Cejas', 'Lash Lifting']
+        && data.fecha is string
+        && data.fecha.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && data.hora in ['08:00', '10:30', '14:00']
+        && data.notas is string && data.notas.size() <= 1000
+        && data.estado in ['pendiente', 'confirmada', 'cancelada', 'completada', 'rechazada', 'confirmado', 'cancelado', 'completado', 'rechazado'];
+    }
+
+    // ===============================================================
+    // Collection Rules
+    // ===============================================================
+
     match /reservas/{reservaId} {
-      allow create: if request.auth != null
+      // Clientes autenticados pueden leer sus propias citas; administradores pueden leer todas las citas.
+      allow read: if isAuthenticated()
+        && (resource.data.uid == request.auth.uid || isAdmin());
+
+      // Clientes autenticados pueden crear citas propias con estado inicial 'pendiente'.
+      allow create: if isAuthenticated()
         && request.resource.data.keys().hasOnly(['uid', 'email', 'nombre', 'telefono', 'servicio', 'fecha', 'hora', 'notas', 'estado', 'fechaCreacion'])
+        && request.resource.data.keys().hasAll(['uid', 'email', 'nombre', 'telefono', 'servicio', 'fecha', 'hora', 'notas', 'estado', 'fechaCreacion'])
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.email == request.auth.token.email
-        && request.resource.data.nombre is string
-        && request.resource.data.nombre.size() >= 2 && request.resource.data.nombre.size() <= 100
-        && request.resource.data.telefono is string
-        && request.resource.data.telefono.size() >= 8 && request.resource.data.telefono.size() <= 20
-        && request.resource.data.servicio in ['Semipermanentes', 'Builder Gel', 'Acrílicos', 'Pedicure Spa', 'Diseño y Depilación de Cejas', 'Laminado de Cejas', 'Lash Lifting']
-        && request.resource.data.fecha is string
-        && request.resource.data.fecha.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
-        && request.resource.data.hora in ['08:00', '10:30', '14:00']
-        && request.resource.data.notas is string && request.resource.data.notas.size() <= 1000
         && request.resource.data.estado == 'pendiente'
-        && request.resource.data.fechaCreacion == request.time;
-      allow read: if request.auth != null && resource.data.uid == request.auth.uid;
+        && request.resource.data.fechaCreacion == request.time
+        && isValidReservaData(request.resource.data);
+
+      // Solo administradores pueden actualizar reservas (estado, notas o detalles administrativos).
+      // Se protegen los campos inmutables (uid, email, fechaCreacion) y se valida el esquema.
+      allow update: if isAdmin()
+        && request.resource.data.keys().hasOnly(['uid', 'email', 'nombre', 'telefono', 'servicio', 'fecha', 'hora', 'notas', 'estado', 'fechaCreacion', 'notasAdmin'])
+        && request.resource.data.keys().hasAll(['uid', 'email', 'nombre', 'telefono', 'servicio', 'fecha', 'hora', 'notas', 'estado', 'fechaCreacion'])
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.email == resource.data.email
+        && request.resource.data.fechaCreacion == resource.data.fechaCreacion
+        && (!('notasAdmin' in request.resource.data) || (request.resource.data.notasAdmin is string && request.resource.data.notasAdmin.size() <= 1000))
+        && isValidReservaData(request.resource.data);
+
+      // Solo administradores pueden eliminar reservas si procede.
+      allow delete: if isAdmin();
     }
   }
 }
