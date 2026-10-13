@@ -4,21 +4,33 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#111111" />
+        <meta
+            name="description"
+            content="Panel de administración de GLAMUROSA Nails & Brows."
+        />
         <title>Administración | GLAMUROSA Nails & Brows</title>
-        <!-- Manifest de la PWA -->
+
+        <!-- PWA -->
         <link rel="manifest" href="manifest.json" />
         <link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml" />
+
         <!-- Font Awesome -->
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         />
-        <!-- Hoja de estilos principal -->
+
+        <!-- Estilos -->
         <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/admin.css" />
     </head>
+
     <body>
-        <a class="skip-link" href="#contenido">Saltar al contenido</a>
-        <!-- Encabezado y navegación -->
+        <a class="skip-link" href="#contenido">
+            Saltar al contenido
+        </a>
+
+        <!-- Encabezado -->
         <header>
             <div class="logo">
                 <a href="index.html" aria-label="Ir al inicio">
@@ -29,6 +41,7 @@
                     />
                 </a>
             </div>
+
             <nav aria-label="Navegación principal">
                 <ul>
                     <li>
@@ -54,10 +67,7 @@
                     </li>
                     <li>
                         <a href="index.html#horarios">
-                            <i
-                                class="fa-regular fa-clock"
-                                aria-hidden="true"
-                            ></i>
+                            <i class="fa-regular fa-clock" aria-hidden="true"></i>
                             Horarios
                         </a>
                     </li>
@@ -86,29 +96,238 @@
             </nav>
         </header>
 
-        <main id="contenido"></main>
+        <!-- Contenido administrativo -->
+        <main id="contenido" class="admin-page">
+            <section class="admin-heading" aria-labelledby="admin-title">
+                <div>
+                    <p class="admin-eyebrow">
+                        GLAMUROSA NAILS & BROWS
+                    </p>
+
+                    <h1 id="admin-title">
+                        Panel de administración
+                    </h1>
+
+                    <p>
+                        Gestiona las actividades y la información de tu salón
+                        desde un solo lugar.
+                    </p>
+                </div>
+
+                <a class="admin-back-link" href="index.html">
+                    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                    Volver al sitio
+                </a>
+            </section>
+
+            <!-- Estado de autenticación y autorización -->
+            <section
+                id="admin-access-status"
+                class="admin-access-status"
+                role="status"
+                aria-live="polite"
+            >
+                <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                <div>
+                    <h2>Verificando acceso</h2>
+                    <p>
+                        Estamos comprobando tu sesión y tus permisos
+                        administrativos.
+                    </p>
+                </div>
+            </section>
+
+            <!-- El contenido administrativo permanecerá oculto
+                 hasta que JavaScript compruebe el permiso. -->
+            <div id="admin-dashboard" hidden>
+                <section class="admin-welcome" aria-labelledby="welcome-title">
+                    <div>
+                        <h2 id="welcome-title">
+                            Bienvenida al área administrativa
+                        </h2>
+                        <p>
+                            Desde aquí podrás supervisar y organizar la
+                            actividad de Glamurosa.
+                        </p>
+                    </div>
+
+                    <div class="admin-welcome-icon" aria-hidden="true">
+                        <i class="fa-solid fa-spa"></i>
+                    </div>
+                </section>
+
+                <!-- Accesos principales -->
+                <section
+                    class="admin-section"
+                    aria-labelledby="admin-shortcuts-title"
+                >
+                    <div class="admin-section-heading">
+                        <h2 id="admin-shortcuts-title">
+                            Gestión del salón
+                        </h2>
+                        <p>
+                            Selecciona el área que deseas administrar.
+                        </p>
+                    </div>
+
+                    <div class="admin-card-grid">
+                        <article class="admin-card">
+                            <div class="admin-card-icon" aria-hidden="true">
+                                <i class="fa-solid fa-calendar-check"></i>
+                            </div>
+
+                            <h3>Reservas</h3>
+                            <p>
+                                Consulta y administra las citas de tus clientes.
+                            </p>
+
+                            <a href="#admin-reservas">
+                                Gestionar reservas
+                                <i
+                                    class="fa-solid fa-arrow-right"
+                                    aria-hidden="true"
+                                ></i>
+                            </a>
+                        </article>
+
+                        <article class="admin-card">
+                            <div class="admin-card-icon" aria-hidden="true">
+                                <i class="fa-solid fa-spa"></i>
+                            </div>
+
+                            <h3>Servicios</h3>
+                            <p>
+                                Organiza los tratamientos y servicios del salón.
+                            </p>
+
+                            <a href="#admin-servicios">
+                                Gestionar servicios
+                                <i
+                                    class="fa-solid fa-arrow-right"
+                                    aria-hidden="true"
+                                ></i>
+                            </a>
+                        </article>
+
+                        <article class="admin-card">
+                            <div class="admin-card-icon" aria-hidden="true">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+
+                            <h3>Clientes</h3>
+                            <p>
+                                Consulta la información de los clientes
+                                autorizada para tu gestión.
+                            </p>
+
+                            <a href="#admin-clientes">
+                                Gestionar clientes
+                                <i
+                                    class="fa-solid fa-arrow-right"
+                                    aria-hidden="true"
+                                ></i>
+                            </a>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- Reservas -->
+                <section
+                    id="admin-reservas"
+                    class="admin-section admin-data-section"
+                    aria-labelledby="reservas-title"
+                >
+                    <div class="admin-section-heading">
+                        <h2 id="reservas-title">Reservas</h2>
+                        <p>
+                            Aquí aparecerán las citas registradas en el sistema.
+                        </p>
+                    </div>
+
+                    <div id="reservas-container" class="admin-data-container">
+                        <p class="admin-placeholder">
+                            Las reservas se mostrarán cuando conectemos
+                            esta sección con Firestore.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Servicios -->
+                <section
+                    id="admin-servicios"
+                    class="admin-section admin-data-section"
+                    aria-labelledby="servicios-title"
+                >
+                    <div class="admin-section-heading">
+                        <h2 id="servicios-title">Servicios</h2>
+                        <p>
+                            Próximamente podrás gestionar el catálogo del salón.
+                        </p>
+                    </div>
+
+                    <div id="servicios-container" class="admin-data-container">
+                        <p class="admin-placeholder">
+                            El catálogo de servicios se conectará en una
+                            siguiente etapa.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Clientes -->
+                <section
+                    id="admin-clientes"
+                    class="admin-section admin-data-section"
+                    aria-labelledby="clientes-title"
+                >
+                    <div class="admin-section-heading">
+                        <h2 id="clientes-title">Clientes</h2>
+                        <p>
+                            Esta sección mostrará únicamente los datos
+                            necesarios para la administración del salón.
+                        </p>
+                    </div>
+
+                    <div id="clientes-container" class="admin-data-container">
+                        <p class="admin-placeholder">
+                            La gestión de clientes se implementará después
+                            de configurar los permisos y las reglas de acceso.
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </main>
 
         <!-- Pie de página -->
         <footer>
             <div class="footer-content">
                 <div class="footer-logo">
                     <i class="fa-solid fa-spa" aria-hidden="true"></i>
-                    <span> GLAMUROSA Nails & Brows </span>
+                    <span>GLAMUROSA Nails & Brows</span>
                 </div>
+
                 <div class="footer-social">
-                    <a href="https://www.instagram.com/glamurosanc__/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                        <i
-                            class="fa-brands fa-instagram"
-                            aria-hidden="true"
-                        ></i>
+                    <a
+                        href="https://www.instagram.com/glamurosanc__/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Instagram"
+                    >
+                        <i class="fa-brands fa-instagram" aria-hidden="true"></i>
                     </a>
-                    <a href="https://www.facebook.com/share/1BTaDsKUDc/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+
+                    <a
+                        href="https://www.facebook.com/share/1BTaDsKUDc/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Facebook"
+                    >
                         <i
                             class="fa-brands fa-facebook-f"
                             aria-hidden="true"
                         ></i>
                     </a>
                 </div>
+
                 <p>
                     <i class="fa-regular fa-copyright" aria-hidden="true"></i>
                     2026 GLAMUROSA Nails & Brows. Todos los derechos reservados.
@@ -116,6 +335,10 @@
             </div>
         </footer>
 
+        <!-- PWA -->
         <script src="js/pwa.js"></script>
+
+        <!-- La lógica de autorización se conectará en la siguiente etapa. -->
+        <script type="module" src="js/admin.js"></script>
     </body>
 </html>
