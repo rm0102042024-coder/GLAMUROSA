@@ -200,5 +200,18 @@ Si prefieres no usar la terminal:
 
 Ejecutar:
 ```sh
+python -m pip install -r tests/requirements.txt
 python tests/browser_flow.py
 ```
+
+
+### Uso seguro de `set-admin.js`
+
+Guarda el JSON de la cuenta de servicio fuera de la carpeta del sitio y del repositorio. En PowerShell, define su ruta y ejecuta el script:
+
+```powershell
+$env:GOOGLE_APPLICATION_CREDENTIALS = "C:\ruta\segura\firebase-service-account.json"
+node set-admin.js admin@glamurosa.com
+```
+
+No publiques ni compartas ese archivo. Si una clave privada ya se subio a un repositorio o se expuso en un sitio, revocala en Google Cloud y genera otra.

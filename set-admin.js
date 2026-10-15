@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * Script para asignar o retirar el rol de administrador (custom claim 'admin: true')
  * a una cuenta de usuario en Firebase Authentication.
@@ -108,3 +109,48 @@ async function main() {
 }
 
 main();
+=======
+
+
+const path = require('path');
+const { initializeApp, cert } = require('firebase-admin/app');
+const { getAuth } = require('firebase-admin/auth');
+
+// La clave privada debe guardarse fuera del repositorio y de la carpeta pública.
+const credentialPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+
+if (!credentialPath) {
+    console.error('Define GOOGLE_APPLICATION_CREDENTIALS con la ruta del JSON privado.');
+    process.exit(1);
+}
+
+const serviceAccountPath = path.resolve(credentialPath);
+
+const serviceAccount = require(serviceAccountPath);
+
+initializeApp({
+    credential: cert(serviceAccount),
+});
+
+async function makeAdmin(email) {
+    if (!email) {
+        throw new Error('Debes indicar el correo del administrador.');
+    }
+
+    const auth = getAuth();
+    const user = await auth.getUserByEmail(email);
+
+    await auth.setCustomUserClaims(user.uid, {
+        ...(user.customClaims || {}),
+        admin: true,
+    });
+
+    console.log(`Permiso de administrador asignado a ${user.email}`);
+}
+
+makeAdmin(process.argv[2]).catch((error) => {
+    console.error('No se pudo asignar el administrador:', error.message);
+    process.exitCode = 1;
+});
+
+>>>>>>> cd00324 (integracion completa)

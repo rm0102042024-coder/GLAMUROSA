@@ -35,9 +35,11 @@ class Handler(SimpleHTTPRequestHandler):
   else:return super().do_GET()
   self.send_response(200);self.send_header('Content-Type',typ);self.end_headers();self.wfile.write(body)
 server=ThreadingHTTPServer(('127.0.0.1',8765),Handler);threading.Thread(target=server.serve_forever,daemon=True).start()
-options=webdriver.ChromeOptions();options.binary_location=os.environ.get('CHROME_BINARY', str(Path.home()/'.cache/selenium/chrome/linux64/155.0.8059.39/chrome'))
+options=webdriver.ChromeOptions()
+if os.environ.get('CHROME_BINARY'):
+ options.binary_location=os.environ['CHROME_BINARY']
 for arg in ['--headless','--no-sandbox','--disable-dev-shm-usage']:options.add_argument(arg)
-driver=webdriver.Chrome(service=Service(os.environ.get('CHROMEDRIVER', str(Path.home()/'.cache/selenium/chromedriver/linux64/155.0.8059.39/chromedriver'))),options=options)
+driver=webdriver.Chrome(service=Service(os.environ.get('CHROMEDRIVER')),options=options)
 wait=WebDriverWait(driver,10)
 def el(id):return driver.find_element(By.ID,id)
 def fill(id,value):el(id).clear();el(id).send_keys(value)

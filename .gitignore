@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Claves de cuentas de servicio y credenciales de Firebase
 serviceAccountKey.json
 *.pem
@@ -11,3 +12,9 @@ credentials.json
 # Archivos temporales del sistema
 .DS_Store
 Thumbs.db
+=======
+# Credenciales privadas de Firebase Admin nunca deben publicarse.
+*service-account*.json
+*firebase-adminsdk*.json
+service-account.json
+>>>>>>> cd00324 (integracion completa)
