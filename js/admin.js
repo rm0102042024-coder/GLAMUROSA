@@ -1,75 +1,53 @@
+import { getSession, logout, readData, writeData } from './storage.js';
+
 const status = document.getElementById('admin-access-status');
 const dashboard = document.getElementById('admin-dashboard');
 const actions = document.getElementById('admin-access-actions');
-const logout = document.getElementById('admin-logout');
-let revision = 0;
+const logoutButton = document.getElementById('admin-logout');
+const session = getSession();
 
 function showStatus(title, message) {
-    dashboard.hidden = true;
-    status.hidden = false;
-    status.querySelector('h2').textContent = title;
-    status.querySelector('p').textContent = message;
-    actions.hidden = false;
+    dashboard.hidden = true; status.hidden = false; actions.hidden = false;
+    status.querySelector('h2').textContent = title; status.querySelector('p').textContent = message;
+}
+if (!session) showStatus('Inicia sesión', 'Usa la cuenta de administrador para acceder al panel.');
+else if (session.role !== 'admin') showStatus('Acceso restringido', 'Esta sección está disponible únicamente para administradores.');
+else {
+    status.hidden = true; actions.hidden = true; dashboard.hidden = false; logoutButton.hidden = false;
+    document.getElementById('welcome-title').textContent = `Bienvenida, ${session.name}`;
+    renderReservations();
+    renderSchedules();
+}
+logoutButton.addEventListener('click', () => { logout(); location.replace('login.html'); });
+
+function renderReservations() {
+    const container = document.getElementById('reservas-container');
+    const reservations = readData().reservas.slice().sort((a,b) => `${a.fecha} ${a.hora}`.localeCompare(`${b.fecha} ${b.hora}`));
+    container.replaceChildren();
+    if (!reservations.length) { const empty = document.createElement('p'); empty.className='admin-placeholder'; empty.textContent='Aún no hay reservas registradas.'; container.append(empty); return; }
+    for (const item of reservations) {
+        const card = document.createElement('article'); card.className='reservation-item';
+        const heading = document.createElement('h3'); heading.textContent=`${item.nombre} · ${item.servicio}`;
+        const details = document.createElement('p'); details.textContent=`${item.fecha} a las ${item.hora} · ${item.telefono} · @${item.usuario} · Estado: ${item.estado}`;
+        const notes = document.createElement('p'); notes.textContent=item.notas ? `Notas: ${item.notas}` : 'Sin notas.';
+        const controls = document.createElement('div'); controls.className='reservation-actions';
+        const select = document.createElement('select'); select.setAttribute('aria-label', `Estado de la cita de ${item.nombre}`);
+        for (const value of ['pendiente','confirmada','cancelada','completada']) { const option=document.createElement('option'); option.value=value; option.textContent=value; option.selected=item.estado===value; select.append(option); }
+        select.addEventListener('change', () => { const data=readData(); const target=data.reservas.find(reserva=>reserva.id===item.id); if(target){target.estado=select.value;writeData(data);renderReservations();} });
+        const remove = document.createElement('button'); remove.type='button'; remove.textContent='Eliminar';
+        remove.addEventListener('click', () => { const data=readData(); data.reservas=data.reservas.filter(reserva=>reserva.id!==item.id); writeData(data); renderReservations(); });
+        controls.append(select,remove); card.append(heading,details,notes,controls); container.append(card);
+    }
 }
 
-// Dynamic imports keep connection failures visible instead of leaving a spinner forever.
-const timeout = setTimeout(() => {
-    showStatus('No se pudo verificar el acceso', 'La conexión está tardando demasiado. Comprueba tu conexión y recarga la página.');
-}, 15000);
-
-try {
-    const [{ auth }, { onIdTokenChanged, getIdTokenResult, signOut }] = await Promise.all([
-        import('./firebase-config.js'),
-        import('https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js'),
-    ]);
-
-    onIdTokenChanged(auth, async user => {
-        const current = ++revision;
-        dashboard.hidden = true;
-        logout.hidden = !user;
-        showStatus('Verificando acceso', 'Estamos comprobando tu sesión y tus permisos administrativos.');
-        try {
-            if (!user) {
-                showStatus('Inicia sesión', 'Necesitas una cuenta con permisos administrativos para acceder a este panel.');
-                return;
-            }
-            const token = await getIdTokenResult(user);
-            if (current !== revision) return;
-            // Only a trusted Firebase custom claim grants access, never browser storage.
-            if (token.claims.admin !== true) {
-                showStatus('Acceso restringido', 'Tu cuenta no tiene permisos administrativos. Contacta con la persona responsable del salón.');
-                return;
-            }
-            status.hidden = true;
-            actions.hidden = true;
-            dashboard.hidden = false;
-        } catch (error) {
-            if (current !== revision) return;
-            console.error('No se pudieron comprobar los permisos:', error);
-            showStatus('No se pudo verificar el acceso', 'Comprueba tu conexión y recarga la página para intentarlo de nuevo.');
-        } finally {
-            clearTimeout(timeout);
-        }
-    }, error => {
-        ++revision;
-        clearTimeout(timeout);
-        console.error('No se pudo comprobar la sesión:', error);
-        showStatus('No se pudo verificar el acceso', 'Comprueba tu conexión y recarga la página.');
-    });
-
-    logout.addEventListener('click', async () => {
-        logout.disabled = true;
-        try {
-            await signOut(auth);
-        } catch (error) {
-            console.error('No se pudo cerrar la sesión:', error);
-            showStatus('No se pudo cerrar la sesión', 'Inténtalo de nuevo o recarga la página.');
-        } finally {
-            logout.disabled = false;
-        }
-    });
-} catch (error) {
-    clearTimeout(timeout);
-    console.error('No se pudo cargar la conexión administrativa:', error);
-    showStatus('No se pudo conectar', 'Comprueba tu conexión a internet y recarga la página.');
+function renderSchedules() {
+    const container = document.getElementById('horarios-container'); container.replaceChildren();
+    const data = readData();
+    for (const time of ['08:00', '10:30', '14:00']) {
+        const label=document.createElement('label'); const input=document.createElement('input'); input.type='checkbox'; input.checked=data.horarios.includes(time);
+        input.addEventListener('change',()=>{const current=readData();current.horarios=input.checked?[...new Set([...current.horarios,time])]:current.horarios.filter(value=>value!==time);writeData(current);});
+        label.append(input,document.createTextNode(` ${time}`)); container.append(label);
+    }
 }
+
+window.addEventListener('storage', event => { if (event.key === 'glamurosa-data-v1' && session?.role === 'admin') { renderReservations(); renderSchedules(); } });

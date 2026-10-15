@@ -16,15 +16,15 @@ Variables de Color y Tipografía
     --white: #ffffff;
     --gray-dark: #444444;
     --gray: #777777;
-    --gray-light: #eeeeee;
-    --gray-bg: #f8f8f8;
+    --gray-light: #eee7e4;
+    --gray-bg: #f7f3f1;
     /* Colores principales */
     --primary-color: var(--black);
-    --primary-hover: #333333;
+    --primary-hover: #3a2927;
     --text-color: #1a1a1a;
     --text-light: #666666;
     --bg-color: #ffffff;
-    --border-color: #dddddd;
+    --border-color: #e5dcda;
     /* Tipografías */
     --font-heading: 'Cormorant Garamond', Georgia, serif;
     --font-body: 'Montserrat', Arial, sans-serif;
@@ -169,7 +169,7 @@ HERO
     overflow: hidden;
     background-image:
         linear-gradient(rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.48)),
-        url('../assets/img/GLAMUROSA FONDO.jpeg');
+        url('../assets/img/SERVICIO.jpeg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -496,6 +496,10 @@ RESPONSIVE — TABLET
         font-size: 0.75rem;
     }
 }
+@media (max-width: 900px) {
+    header { flex-direction: column; gap: 1rem; }
+    nav ul { justify-content: center; flex-wrap: wrap; }
+}
 /* ==========================================================================
 RESPONSIVE — MÓVIL
 ========================================================================== */
@@ -589,6 +593,13 @@ nav ul { flex-wrap: wrap; justify-content: center; }
 button:disabled { opacity: .6; cursor: wait; }
 .form-message[data-type="error"] { color: #922525; }
 .form-message[data-type="success"] { color: #205c3b; }
+.my-reservations { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--gray-light); }
+.my-reservations h2 { margin-bottom: 1rem; font: 500 2rem/1.2 var(--font-heading); }
+.my-reservations > div:empty::after { content: 'Tus reservas aparecerán aquí.'; color: var(--text-light); font-size: .88rem; }
+.my-reservations .reservation-item { padding: 1rem 0; border-bottom: 1px solid var(--gray-light); }
+.my-reservations .reservation-item:last-child { border-bottom: 0; }
+.my-reservations .reservation-item h3 { margin-bottom: .25rem; font: 600 1.35rem/1.3 var(--font-heading); }
+.my-reservations .reservation-item p { color: var(--text-light); font-size: .82rem; }
 @media (max-width: 768px) { header { position: static; } }
 
 .skip-link { position: fixed; top: 8px; left: 8px; z-index: 2000; padding: 12px 18px; background: #fff; color: #111; transform: translateY(-160%); }
@@ -605,4 +616,19 @@ nav a[aria-current="page"] { font-weight: 600; text-decoration: underline; text-
 .service-card li { padding: .6rem 0; border-bottom: 1px solid var(--gray-light); }
 .service-card a { display: inline-block; margin-top: 1rem; text-decoration: underline; }
 @media (max-width: 600px) { .service-grid { grid-template-columns: 1fr; } .service-card { padding: 1.5rem; } }
+.content-heading { max-width: 740px; margin-bottom: 2rem; }
+.content-heading h1 { margin-bottom: .5rem; }
+.content-heading > p:last-child { max-width: 620px; }
+.eyebrow { color: var(--text-light); font-size: .7rem; font-weight: 600; letter-spacing: .18em; }
+.service-gallery { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(220px, .8fr); align-items: stretch; gap: 1.25rem; margin: 3rem 0; }
+.service-gallery figure { position: relative; min-width: 0; overflow: hidden; background: var(--gray-bg); }
+.service-gallery img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.service-gallery figure:hover img { transform: scale(1.025); }
+.service-gallery-featured { min-height: 400px; }
+.service-gallery-studio { min-height: 400px; }
+.service-gallery figcaption { position: absolute; right: 0; bottom: 0; left: 0; padding: 1.1rem 1.25rem; color: var(--white); background: linear-gradient(transparent, rgb(0 0 0 / 72%)); font-size: .82rem; }
+.service-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.5rem 0; border-top: 1px solid var(--border-color); }
+.service-cta p { margin: 0; color: var(--text-light); font-size: .88rem; }
+.service-cta .btn-primary { width: auto; }
+@media (max-width: 700px) { .service-gallery { grid-template-columns: 1fr; } .service-gallery-featured { min-height: min(88vw, 420px); } .service-gallery-studio { min-height: min(115vw, 500px); } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }

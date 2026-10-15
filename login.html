@@ -12,7 +12,7 @@
         <title>Iniciar sesión | GLAMUROSA Nails & Brows</title>
 
         <link rel="manifest" href="manifest.json" />
-        <link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml" />
+        <link rel="icon" href="assets/img/icon.svg" type="image/svg+xml" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -96,7 +96,7 @@
                     </p>
                 </div>
 
-                <div class="auth-tabs" role="tablist" aria-label="Opciones de cuenta">
+                <div class="auth-tabs" role="tablist" aria-label="Opciones de cuenta" hidden>
                     <button
                         class="auth-tab"
                         id="tab-login"
@@ -129,13 +129,13 @@
 
                 <form method="post" id="form-login" class="auth-form" role="tabpanel" aria-labelledby="tab-login" novalidate>
                     <div class="auth-field">
-                        <label for="login-email">Correo electrónico</label>
+                        <label for="login-email">Usuario</label>
                         <input
                             id="login-email"
                             name="email"
-                            type="email"
-                            autocomplete="email"
-                            placeholder="tu@correo.com"
+                            type="text"
+                            autocomplete="username"
+                            placeholder="admin o cliente"
                             required
                         />
                     </div>
@@ -160,12 +160,14 @@
                     <button
                         class="auth-link"
                         id="show-recovery"
+                        hidden
                         type="button"
                     >
                         ¿Olvidaste tu contraseña?
                     </button>
                 </form>
 
+                <p class="auth-note"><span>Administrador:</span> <strong>admin / admin123</strong><br><span>Cliente:</span> <strong>cliente / cliente123</strong></p>
                 <form method="post" id="form-register" class="auth-form" role="tabpanel" aria-labelledby="tab-register" hidden novalidate>
                     <div class="auth-field">
                         <label for="register-name">Nombre completo</label>
@@ -256,10 +258,6 @@
                     </button>
                 </form>
 
-                <p class="auth-note">
-                    Tu cuenta te permite acceder a las funciones de reserva
-                    de GLAMUROSA Nails & Brows.
-                </p>
             </section>
         </main>
 

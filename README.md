@@ -1,23 +1,23 @@
 # GLAMUROSA Nails & Brows
 
-Sitio web y Progressive Web App (PWA) para salón de belleza con autenticación de usuarios mediante **Firebase Authentication** y gestión de citas en **Cloud Firestore**.
+Sitio web estático de GLAMUROSA. Las cuentas de demostración y las reservas se guardan en `localStorage`; no requiere Firebase, base de datos, backend ni instalación de dependencias. Sirve los archivos con cualquier servidor estático local (por ejemplo, Live Server).
 
----
+## Acceso
 
-## Guía Paso a Paso: Configuración de Firebase
+- Administrador: `admin` / `admin123`. Abre el panel `admin.html`, donde puede revisar reservas, cambiar el estado y eliminar citas.
+- Cliente: `cliente` / `cliente123`. Puede solicitar una cita y ver sus reservas y estados.
 
-Para que el agendamiento de citas en `reserva.html` y el inicio de sesión funcionen correctamente en producción (por ejemplo, en GitHub Pages), la persona encargada debe completar los siguientes pasos en la consola de Firebase:
+El cliente conserva las validaciones de datos, fecha futura, domingo cerrado y turnos disponibles. Los horarios ocupados no aceptan una segunda reserva activa. Las reservas se escriben como JSON en la clave `glamurosa-data-v1`; la sesión se guarda en `glamurosa-session-v1`. Si los datos están ausentes o no se pueden leer, el sitio inicializa los valores predeterminados.
 
-### 1. Habilitar Authentication (Correo electrónico y contraseña)
-1. Ingresa a [Firebase Console](https://console.firebase.google.com/) y selecciona el proyecto **`glamurosa-3a5ad`**.
-2. En el menú lateral izquierdo, ve a **Compilación (Build)** > **Authentication**.
-3. Haz clic en la pestaña **Método de inicio de sesión (Sign-in method)**.
-4. Si aún no está habilitado, selecciona **Correo electrónico/Contraseña (Email/Password)**.
-5. Activa la primera casilla: **Habilitar** (no es necesario activar el vínculo por correo electrónico sin contraseña).
-6. Haz clic en **Guardar**.
+## Probar el flujo
 
----
+1. Abre `login.html` mediante un servidor estático.
+2. Inicia sesión con `admin` / `admin123`; confirma que abre el panel y que una cuenta de cliente no puede acceder a él.
+3. Cierra sesión e inicia con `cliente` / `cliente123`.
+4. Completa una reserva para una fecha futura de lunes a sábado y pulsa **Solicitar cita**.
+5. Confirma que aparece en **Mis reservas**. Cierra sesión, entra como administrador y verifica que la cita aparece en **Reservas**. Cambia su estado y vuelve a entrar como cliente para comprobar el estado actualizado.
 
+<<<<<<< HEAD
 ### 2. Registrar Dominios Autorizados
 Para permitir que los usuarios inicien sesión y soliciten citas desde la web publicada:
 1. Dentro de **Authentication**, haz clic en la pestaña **Ajustes (Settings)**.
@@ -215,3 +215,6 @@ node set-admin.js admin@glamurosa.com
 ```
 
 No publiques ni compartas ese archivo. Si una clave privada ya se subio a un repositorio o se expuso en un sitio, revocala en Google Cloud y genera otra.
+=======
+Los datos viven en el navegador y origen donde se creó la reserva. Limpiar los datos del sitio también elimina las reservas y sesiones guardadas.
+>>>>>>> 36d7cca (mejoras en el sitio local storage)

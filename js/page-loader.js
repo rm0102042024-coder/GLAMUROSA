@@ -34,7 +34,7 @@ try {
 
     if (message) {
         message.textContent =
-            'No se pudo conectar. Comprueba tu conexión a internet y recarga la página.';
+            'No se pudo cargar el formulario. Recarga la pagina e intenta de nuevo.';
         message.dataset.type = 'error';
     }
 

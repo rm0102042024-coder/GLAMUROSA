@@ -12,7 +12,7 @@
 
         <!-- PWA -->
         <link rel="manifest" href="manifest.json" />
-        <link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml" />
+        <link rel="icon" href="assets/img/icon.svg" type="image/svg+xml" />
 
         <!-- Font Awesome -->
         <link
@@ -196,45 +196,15 @@
                                 ></i>
                             </a>
                         </article>
-
                         <article class="admin-card">
                             <div class="admin-card-icon" aria-hidden="true">
-                                <i class="fa-solid fa-spa"></i>
+                                <i class="fa-regular fa-clock"></i>
                             </div>
-
-                            <h3>Servicios</h3>
-                            <p>
-                                Organiza los tratamientos y servicios del salón.
-                            </p>
-
-                            <a href="#admin-servicios">
-                                Gestionar servicios
-                                <i
-                                    class="fa-solid fa-arrow-right"
-                                    aria-hidden="true"
-                                ></i>
-                            </a>
+                            <h3>Horarios</h3>
+                            <p>Activa o desactiva los turnos que pueden solicitar tus clientes.</p>
+                            <a href="#admin-horarios">Gestionar horarios <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
                         </article>
 
-                        <article class="admin-card">
-                            <div class="admin-card-icon" aria-hidden="true">
-                                <i class="fa-solid fa-users"></i>
-                            </div>
-
-                            <h3>Clientes</h3>
-                            <p>
-                                Consulta la información de los clientes
-                                autorizada para tu gestión.
-                            </p>
-
-                            <a href="#admin-clientes">
-                                Gestionar clientes
-                                <i
-                                    class="fa-solid fa-arrow-right"
-                                    aria-hidden="true"
-                                ></i>
-                            </a>
-                        </article>
                     </div>
                 </section>
 
@@ -247,58 +217,23 @@
                     <div class="admin-section-heading">
                         <h2 id="reservas-title">Reservas</h2>
                         <p>
-                            Aquí aparecerán las citas registradas en el sistema.
+                            Consulta las citas y actualiza su estado.
                         </p>
                     </div>
 
                     <div id="reservas-container" class="admin-data-container">
                         <p class="admin-placeholder">
-                            La consulta de reservas aún no está disponible en este panel.
+                            Cargando reservas guardadas en este navegador.
                         </p>
                     </div>
                 </section>
 
-                <!-- Servicios -->
-                <section
-                    id="admin-servicios"
-                    class="admin-section admin-data-section"
-                    aria-labelledby="servicios-title"
-                >
+                <section id="admin-horarios" class="admin-section admin-data-section" aria-labelledby="horarios-title">
                     <div class="admin-section-heading">
-                        <h2 id="servicios-title">Servicios</h2>
-                        <p>
-                            Próximamente podrás gestionar el catálogo del salón.
-                        </p>
+                        <h2 id="horarios-title">Horarios disponibles</h2>
+                        <p>Activa o desactiva los turnos que podrán solicitar tus clientes.</p>
                     </div>
-
-                    <div id="servicios-container" class="admin-data-container">
-                        <p class="admin-placeholder">
-                            El catálogo de servicios se conectará en una
-                            siguiente etapa.
-                        </p>
-                    </div>
-                </section>
-
-                <!-- Clientes -->
-                <section
-                    id="admin-clientes"
-                    class="admin-section admin-data-section"
-                    aria-labelledby="clientes-title"
-                >
-                    <div class="admin-section-heading">
-                        <h2 id="clientes-title">Clientes</h2>
-                        <p>
-                            Esta sección mostrará únicamente los datos
-                            necesarios para la administración del salón.
-                        </p>
-                    </div>
-
-                    <div id="clientes-container" class="admin-data-container">
-                        <p class="admin-placeholder">
-                            La gestión de clientes se implementará después
-                            de configurar los permisos y las reglas de acceso.
-                        </p>
-                    </div>
+                    <div id="horarios-container" class="admin-data-container"></div>
                 </section>
             </div>
         </main>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'glamurosa-pwa-v7';
+const CACHE_NAME = 'glamurosa-pwa-v9';
 
 // Lista de archivos clave a guardar en caché para la PWA
 const ASSETS_TO_CACHE = [
@@ -11,21 +11,23 @@ const ASSETS_TO_CACHE = [
     './contacto.html',
     './reserva.html',
     './manifest.json',
-    './assets/icons/icon.svg',
-    './assets/icons/icon-192x192.png',
-    './assets/icons/icon-512x512.png',
+    './assets/img/icon.svg',
+    './assets/img/icon-192x192.png',
+    './assets/img/icon-512x512.png',
     './css/style.css',
     './css/auth.css',
     './js/auth.js',
     './js/account-nav.js',
     './js/admin.js',
     './css/admin.css',
-    './js/firebase-config.js',
+    './js/storage.js',
     './js/page-loader.js',
     './css/contacto.css',
     './js/pwa.js',
     './js/reserva.js',
     './assets/img/LOGO_GLAMUROSA.png',
+    './assets/img/SERVICIO.jpeg',
+    './assets/img/SETUP-GLAMUROSA.jpg',
     './assets/img/GLAMUROSA FONDO.jpeg',
 ];
 
