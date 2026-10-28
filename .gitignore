@@ -1,8 +1,10 @@
-<<<<<<< HEAD
-# Claves de cuentas de servicio y credenciales de Firebase
+# Claves de cuentas de servicio y credenciales privadas de Firebase
 serviceAccountKey.json
-*.pem
+*service-account*.json
+service-account.json
+*firebase-adminsdk*.json
 credentials.json
+*.pem
 
 # Variables de entorno
 .env
@@ -12,9 +14,6 @@ credentials.json
 # Archivos temporales del sistema
 .DS_Store
 Thumbs.db
-=======
-# Credenciales privadas de Firebase Admin nunca deben publicarse.
-*service-account*.json
-*firebase-adminsdk*.json
-service-account.json
->>>>>>> cd00324 (integracion completa)
+
+# Dependencias locales de Node.js
+node_modules/

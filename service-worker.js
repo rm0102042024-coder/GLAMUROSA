@@ -1,4 +1,4 @@
-const CACHE_NAME = 'glamurosa-pwa-v9';
+const CACHE_NAME = 'glamurosa-pwa-v10';
 
 // Lista de archivos clave a guardar en caché para la PWA
 const ASSETS_TO_CACHE = [
@@ -17,6 +17,7 @@ const ASSETS_TO_CACHE = [
     './css/style.css',
     './css/auth.css',
     './js/auth.js',
+    './js/firebase-config.js',
     './js/account-nav.js',
     './js/admin.js',
     './css/admin.css',

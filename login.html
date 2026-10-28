@@ -129,13 +129,13 @@
 
                 <form method="post" id="form-login" class="auth-form" role="tabpanel" aria-labelledby="tab-login" novalidate>
                     <div class="auth-field">
-                        <label for="login-email">Usuario</label>
+                        <label for="login-email">Correo electrónico</label>
                         <input
                             id="login-email"
                             name="email"
-                            type="text"
+                            type="email"
                             autocomplete="username"
-                            placeholder="admin o cliente"
+                            placeholder="tu@correo.com"
                             required
                         />
                     </div>
@@ -167,7 +167,7 @@
                     </button>
                 </form>
 
-                <p class="auth-note"><span>Administrador:</span> <strong>admin / admin123</strong><br><span>Cliente:</span> <strong>cliente / cliente123</strong></p>
+                <p class="auth-note">Usa tu correo electrónico para iniciar sesión o crear una cuenta.</p>
                 <form method="post" id="form-register" class="auth-form" role="tabpanel" aria-labelledby="tab-register" hidden novalidate>
                     <div class="auth-field">
                         <label for="register-name">Nombre completo</label>

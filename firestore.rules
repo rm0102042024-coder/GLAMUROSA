@@ -1,0 +1,153 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn() && request.auth.token.admin == true;
+    }
+
+    function ownsReservation() {
+      return signedIn() && resource.data.uid == request.auth.uid;
+    }
+
+    function bookingIsInitialized() {
+      return get(/databases/$(database)/documents/settings/bookingSetup).data.ready == true;
+    }
+
+    function configuredHour(hour) {
+      let schedulePath = /databases/$(database)/documents/settings/schedule;
+      return hour in ['08:00', '10:30', '14:00']
+        && (exists(schedulePath)
+          ? hour in get(schedulePath).data.horarios
+          : hour in ['08:00', '10:30', '14:00']);
+    }
+
+    // El Salvador uses UTC-6 (without daylight saving time). fechaHora is the
+    // authoritative instant; fecha/hora remain for existing clients and display.
+    function validAppointmentTime(data) {
+      let localTime = data.fechaHora + duration.value(6, 'h');
+      return data.fechaHora is timestamp
+        && data.fechaHora > request.time
+        && data.fecha.matches('^\\d{4}-\\d{2}-\\d{2}$')
+        && data.hora is string
+        && configuredHour(data.hora)
+        && localTime.dayOfWeek() != 7
+        && ((data.hora == '08:00' && localTime.hours() == 8 && localTime.minutes() == 0)
+          || (data.hora == '10:30' && localTime.hours() == 10 && localTime.minutes() == 30)
+          || (data.hora == '14:00' && localTime.hours() == 14 && localTime.minutes() == 0));
+    }
+
+    function slotPathFor(data) {
+      return /databases/$(database)/documents/bookingSlots/$(data.fecha + '_' + data.hora);
+    }
+
+    function slotReleasedAfter(reservationId, data) {
+      let path = slotPathFor(data);
+      return !existsAfter(path) || getAfter(path).data.reservationId != reservationId;
+    }
+
+    function slotHeldAfter(reservationId, data) {
+      let path = slotPathFor(data);
+      return existsAfter(path) && getAfter(path).data.reservationId == reservationId;
+    }
+
+    function slotMayBeDeleted() {
+      let reservationPath = /databases/$(database)/documents/reservations/$(resource.data.reservationId);
+      return !existsAfter(reservationPath)
+        || getAfter(reservationPath).data.estado == 'cancelada';
+    }
+
+    function validNewReservation(reservationId) {
+      let slotPath = slotPathFor(request.resource.data);
+      return signedIn()
+        && bookingIsInitialized()
+        && request.resource.data.keys().hasAll([
+          'uid', 'email', 'nombre', 'telefono', 'servicio', 'fecha',
+          'hora', 'fechaHora', 'notas', 'estado', 'fechaCreacion'
+        ])
+        && request.resource.data.keys().hasOnly([
+          'uid', 'email', 'nombre', 'telefono', 'servicio', 'fecha',
+          'hora', 'fechaHora', 'notas', 'estado', 'fechaCreacion'
+        ])
+        && request.resource.data.uid == request.auth.uid
+        && request.auth.token.email is string
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.nombre is string
+        && request.resource.data.nombre.size() >= 2
+        && request.resource.data.nombre.size() <= 100
+        && request.resource.data.telefono is string
+        && request.resource.data.telefono.size() >= 8
+        && request.resource.data.telefono.size() <= 20
+        && request.resource.data.telefono.matches('^\\+?[0-9 ()-]{8,20}$')
+        && request.resource.data.servicio is string
+        && request.resource.data.servicio.size() >= 1
+        && request.resource.data.servicio.size() <= 100
+        && request.resource.data.fecha is string
+        && request.resource.data.hora is string
+        && request.resource.data.notas is string
+        && request.resource.data.notas.size() <= 1000
+        && validAppointmentTime(request.resource.data)
+        && request.resource.data.estado == 'pendiente'
+        && request.resource.data.fechaCreacion == request.time
+        && getAfter(slotPath).data.reservationId == reservationId;
+    }
+
+    function matchingSlot(slotId) {
+      let reservationPath = /databases/$(database)/documents/reservations/$(request.resource.data.reservationId);
+      let reservation = getAfter(reservationPath).data;
+      return request.resource.data.keys().hasAll(['reservationId', 'fecha', 'hora'])
+        && request.resource.data.keys().hasOnly(['reservationId', 'fecha', 'hora'])
+        && request.resource.data.reservationId is string
+        && request.resource.data.fecha is string
+        && request.resource.data.hora is string
+        && slotId == request.resource.data.fecha + '_' + request.resource.data.hora
+        && reservation.uid is string
+        && reservation.fecha == request.resource.data.fecha
+        && reservation.hora == request.resource.data.hora
+        && validAppointmentTime(reservation)
+        && reservation.estado in ['pendiente', 'confirmada', 'completada']
+        && (isAdmin() || (
+          reservation.uid == request.auth.uid
+          && reservation.estado == 'pendiente'
+          && reservation.fechaCreacion == request.time
+        ));
+    }
+
+    match /reservations/{reservationId} {
+      allow get, list: if isAdmin() || ownsReservation();
+      allow create: if validNewReservation(reservationId);
+      allow update: if isAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['estado'])
+        && request.resource.data.estado in ['pendiente', 'confirmada', 'cancelada', 'completada']
+        && (request.resource.data.estado == 'cancelada'
+          ? slotReleasedAfter(reservationId, resource.data)
+          : slotHeldAfter(reservationId, resource.data));
+      allow delete: if isAdmin() && slotReleasedAfter(reservationId, resource.data);
+    }
+
+    match /bookingSlots/{slotId} {
+      allow get: if signedIn();
+      allow list: if false;
+      allow create: if signedIn() && matchingSlot(slotId);
+      // The app only creates or deletes a slot; replacing its owner can orphan a reservation.
+      allow update: if false;
+      allow delete: if isAdmin() && slotMayBeDeleted();
+    }
+
+    match /settings/{settingId} {
+      allow get: if signedIn() && settingId in ['schedule', 'bookingSetup'];
+      allow list: if false;
+      allow create, update: if isAdmin()
+        && settingId == 'schedule'
+        && request.resource.data.keys().hasAll(['horarios'])
+        && request.resource.data.keys().hasOnly(['horarios'])
+        && request.resource.data.horarios is list
+        && request.resource.data.horarios.size() <= 3
+        && request.resource.data.horarios.hasOnly(['08:00', '10:30', '14:00']);
+      allow delete: if false;
+    }
+  }
+}
