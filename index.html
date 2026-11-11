@@ -186,5 +186,23 @@
 =============================== -->
         <script src="js/pwa.js"></script>
         <script type="module" src="js/account-nav.js"></script>
+        <!-- Burbuja flotante -->
+<button id="chat-button" class="chat-toggle-btn">💬 Chat</button>
+
+<!-- Ventana del chat (oculta por defecto) -->
+<div id="chat-window" class="chat-container" style="display: none;">
+  <div class="chat-header">
+    <span>Asistente GLAMUROSA</span>
+    <button id="close-chat">✖</button>
+  </div>
+  <div id="chat-messages" class="chat-messages">
+    <div class="message bot-message">¡Hola! ¿En qué te puedo ayudar hoy?</div>
+  </div>
+  <div class="chat-input-area">
+    <input type="text" id="chat-input" placeholder="Escribe tu mensaje...">
+    <button id="send-button">Enviar</button>
+  </div>
+</div>
+<script src="js/chatbot.js"></script>
     </body>
 </html>
